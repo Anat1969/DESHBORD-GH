@@ -19,7 +19,8 @@ function getInsight(neighborhoods) {
   const top = sorted[0]
   const bottom = sorted[sorted.length - 1]
   const gap = top.businesses - bottom.businesses
-  return `${top.name} מובילה עם ${top.businesses.toLocaleString('he-IL')} עסקים. הפער מ${bottom.name} (${bottom.businesses.toLocaleString('he-IL')}) עומד על ${gap.toLocaleString('he-IL')} — מצביע על ריכוזיות עסקית גבוהה במרכז העיר.`
+  const ratio = (top.businesses / bottom.businesses).toFixed(1)
+  return `${top.name} מובילה עם ${top.businesses.toLocaleString('he-IL')} עסקים — פי ${ratio} מ${bottom.name} (${bottom.businesses.toLocaleString('he-IL')}). פער של ${gap.toLocaleString('he-IL')} עסקים מצביע על ריכוזיות עסקית גבוהה שעלולה ליצור תלות כלכלית באזורים מסוימים. מומלץ לבחון תמריצים לפיזור עסקי`
 }
 
 export default function LineChart({ neighborhoods }) {
@@ -31,15 +32,16 @@ export default function LineChart({ neighborhoods }) {
       {
         label: 'מספר עסקים',
         data: sorted.map(n => n.businesses),
-        borderColor: 'rgba(96, 165, 250, 0.8)',
-        backgroundColor: 'rgba(96, 165, 250, 0.08)',
+        borderColor: 'rgba(180, 195, 220, 0.7)',
+        backgroundColor: 'rgba(180, 195, 220, 0.06)',
         fill: true,
         tension: 0.4,
         pointRadius: 5,
-        pointBackgroundColor: 'rgba(96, 165, 250, 0.9)',
+        pointBackgroundColor: 'rgba(180, 195, 220, 0.8)',
         pointBorderColor: '#1a1d27',
         pointBorderWidth: 2,
-        pointHoverRadius: 7,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: 'rgba(200, 210, 230, 0.9)',
         borderWidth: 2
       }
     ]
@@ -53,11 +55,12 @@ export default function LineChart({ neighborhoods }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: '#1a1d27',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(26, 29, 39, 0.95)',
+        borderColor: 'rgba(255,255,255,0.08)',
         borderWidth: 1,
-        titleFont: { family: 'Rubik, sans-serif' },
-        bodyFont: { family: 'Rubik, sans-serif' },
+        titleFont: { family: 'Rubik, sans-serif', size: 13 },
+        bodyFont: { family: 'Rubik, sans-serif', size: 12 },
+        padding: 12,
         callbacks: {
           label: (ctx) => `${ctx.parsed.y.toLocaleString('he-IL')} עסקים`
         }
@@ -67,19 +70,19 @@ export default function LineChart({ neighborhoods }) {
       x: {
         ticks: {
           font: { family: 'Rubik, sans-serif', size: 12 },
-          color: '#8b8fa3'
+          color: 'rgba(180, 190, 210, 0.5)'
         },
         grid: { display: false },
-        border: { color: 'rgba(255,255,255,0.06)' }
+        border: { color: 'rgba(255,255,255,0.04)' }
       },
       y: {
         beginAtZero: true,
         ticks: {
           font: { family: 'Rubik, sans-serif', size: 11 },
-          color: '#5c6070',
+          color: 'rgba(180, 190, 210, 0.35)',
           callback: (v) => v.toLocaleString('he-IL')
         },
-        grid: { color: 'rgba(255,255,255,0.04)' },
+        grid: { color: 'rgba(255,255,255,0.03)' },
         border: { display: false }
       }
     }
@@ -87,7 +90,7 @@ export default function LineChart({ neighborhoods }) {
 
   return (
     <>
-      <p className="chart-insight">{getInsight(neighborhoods)}</p>
+      <p className="chart-insight large">{getInsight(neighborhoods)}</p>
       <div style={{ height: 280 }}>
         <Line data={data} options={options} />
       </div>

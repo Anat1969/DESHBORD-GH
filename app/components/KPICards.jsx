@@ -3,19 +3,19 @@ function getInsight(summary) {
   const businesses = summary.total_businesses
 
   let vacancyInsight
-  if (vacancy <= 0.12) vacancyInsight = 'ריקנות נמוכה — ביקוש גבוה לשטחי מסחר'
-  else if (vacancy <= 0.16) vacancyInsight = 'ריקנות בטווח בריא — שוק מאוזן'
-  else if (vacancy <= 0.20) vacancyInsight = 'ריקנות מעל הממוצע — נדרשת בחינה'
-  else vacancyInsight = 'ריקנות גבוהה — סימן לירידה בביקוש, דורש התערבות'
+  if (vacancy <= 0.12) vacancyInsight = 'ריקנות נמוכה — ביקוש גבוה לשטחי מסחר, סימן לכלכלה עירונית חזקה'
+  else if (vacancy <= 0.16) vacancyInsight = 'ריקנות בטווח בריא — שוק מאוזן בין היצע וביקוש. אין צורך בהתערבות מיידית'
+  else if (vacancy <= 0.20) vacancyInsight = 'ריקנות מעל הממוצע — ייתכנו שכונות עם ירידה בביקוש. מומלץ לבחון את הפיזור'
+  else vacancyInsight = 'ריקנות גבוהה — סימן לירידה בביקוש, ייתכן צורך בתמריצים כלכליים או התחדשות עירונית'
 
   return {
     businesses: businesses > 5000
-      ? `ריכוז עסקי משמעותי — ${summary.neighborhoods_count} שכונות פעילות`
-      : 'מספר עסקים נמוך יחסית — נדרש מיפוי נוסף',
+      ? `ריכוז עסקי משמעותי עם פעילות ב-${summary.neighborhoods_count} שכונות. העיר מציגה בסיס עסקי רחב ומגוון`
+      : 'מספר עסקים נמוך יחסית — ייתכנו שכונות שלא מיוצגות בנתונים',
     neighborhoods: summary.neighborhoods_count >= 6
-      ? 'כיסוי גיאוגרפי רחב של העיר'
-      : 'כיסוי חלקי — ייתכנו שכונות ללא נתונים',
-    income: `ממוצע ${Math.round(summary.total_income / summary.neighborhoods_count)} אלף ₪ לשכונה`,
+      ? 'כיסוי גיאוגרפי רחב — הנתונים משקפים את מרבית אזורי העיר ומאפשרים השוואה מהימנה'
+      : 'כיסוי חלקי — חלק מהשכונות אינן מיוצגות. התובנות עלולות לא לשקף את התמונה המלאה',
+    income: `ממוצע ${Math.round(summary.total_income / summary.neighborhoods_count)} אלף ₪ לשכונה. פערי הכנסות בין שכונות יכולים להעיד על אי-שוויון כלכלי`,
     vacancy: vacancyInsight
   }
 }

@@ -1,4 +1,5 @@
 import { useDashboard } from '../context/DashboardContext'
+import FileUpload from './FileUpload'
 import neighborhoodsData from '../../data/neighborhoods.json'
 import categoriesData from '../../data/categories.json'
 
@@ -13,6 +14,8 @@ export default function Sidebar() {
           איפוס
         </button>
       </div>
+
+      <FileUpload />
 
       <div className="filter-group">
         <label htmlFor="filter-neighborhood">שכונה</label>
@@ -43,11 +46,11 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar-info">
-        <h3>אודות</h3>
+        <h3>מקורות נתונים</h3>
         <p>
-          דשבורד עסקים עירוני לעיר אשדוד.
-          מציג נתוני עסקים לפי שכונות וקטגוריות,
-          כולל הכנסות ואחוזי ריקנות.
+          הנתונים מבוססים על מקורות ציבוריים:
+          הלמ"ס, רשם החברות, ופורטל data.gov.il.
+          העלו קובץ Excel לעדכון הנתונים.
         </p>
         <p className="version">גרסה 2.0</p>
       </div>

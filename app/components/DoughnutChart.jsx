@@ -15,15 +15,17 @@ function getInsight(categories) {
   const topPct = ((sorted[0].total_count / total) * 100).toFixed(0)
   const topTwo = sorted.slice(0, 2)
   const topTwoPct = (((topTwo[0].total_count + topTwo[1].total_count) / total) * 100).toFixed(0)
-  return `${sorted[0].name} מהווה ${topPct}% מכלל העסקים. יחד עם ${sorted[1].name}, שני הענפים מרכזים ${topTwoPct}% מהפעילות — פיזור עסקי שדורש גיוון.`
+  const smallest = sorted[sorted.length - 1]
+  const smallPct = ((smallest.total_count / total) * 100).toFixed(0)
+  return `${sorted[0].name} מהווה ${topPct}% מכלל העסקים. יחד עם ${sorted[1].name}, שני הענפים מרכזים ${topTwoPct}% מהפעילות העסקית. ${smallest.name} מייצג רק ${smallPct}% — ריכוזיות זו יוצרת פגיעות כלכלית ומומלץ לעודד גיוון ענפי`
 }
 
-const DARK_COLORS = [
-  'rgba(96, 165, 250, 0.75)',
-  'rgba(52, 211, 153, 0.75)',
-  'rgba(167, 139, 250, 0.75)',
-  'rgba(251, 191, 36, 0.75)',
-  'rgba(248, 113, 113, 0.75)'
+const SILVER_COLORS = [
+  'rgba(170, 190, 220, 0.6)',
+  'rgba(160, 210, 190, 0.55)',
+  'rgba(190, 175, 220, 0.55)',
+  'rgba(210, 200, 160, 0.55)',
+  'rgba(210, 170, 170, 0.5)'
 ]
 
 export default function DoughnutChart({ categories }) {
@@ -32,8 +34,9 @@ export default function DoughnutChart({ categories }) {
     datasets: [
       {
         data: categories.map(c => c.total_count),
-        backgroundColor: DARK_COLORS.slice(0, categories.length),
-        borderWidth: 0,
+        backgroundColor: SILVER_COLORS.slice(0, categories.length),
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.06)',
         hoverOffset: 6,
         hoverBorderWidth: 2,
         hoverBorderColor: 'rgba(255,255,255,0.2)'
@@ -44,15 +47,15 @@ export default function DoughnutChart({ categories }) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: '60%',
+    cutout: '62%',
     plugins: {
       legend: {
         position: 'bottom',
         rtl: true,
         labels: {
           font: { family: 'Rubik, sans-serif', size: 12 },
-          color: '#8b8fa3',
-          padding: 16,
+          color: 'rgba(180, 190, 210, 0.5)',
+          padding: 18,
           usePointStyle: true,
           pointStyleWidth: 10
         }
@@ -60,11 +63,12 @@ export default function DoughnutChart({ categories }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: '#1a1d27',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(26, 29, 39, 0.95)',
+        borderColor: 'rgba(255,255,255,0.08)',
         borderWidth: 1,
-        titleFont: { family: 'Rubik, sans-serif' },
-        bodyFont: { family: 'Rubik, sans-serif' },
+        titleFont: { family: 'Rubik, sans-serif', size: 13 },
+        bodyFont: { family: 'Rubik, sans-serif', size: 12 },
+        padding: 12,
         callbacks: {
           label: (ctx) => {
             const total = ctx.dataset.data.reduce((a, b) => a + b, 0)
@@ -80,7 +84,7 @@ export default function DoughnutChart({ categories }) {
 
   return (
     <>
-      <p className="chart-insight">{getInsight(categories)}</p>
+      <p className="chart-insight large">{getInsight(categories)}</p>
       <div style={{ height: 280, position: 'relative' }}>
         <Doughnut data={data} options={options} />
         <div className="doughnut-center">
