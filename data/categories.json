@@ -1,0 +1,34 @@
+{
+  "categories": [
+    {
+      "id": "general",
+      "name": "סחורות כללי",
+      "color": "#FF6B6B",
+      "description": "חנויות כלליות ומסחר קמעונאי"
+    },
+    {
+      "id": "food",
+      "name": "מזון ומשקה",
+      "color": "#4ECDC4",
+      "description": "מסעדות, בתי קפה, חנויות מזון"
+    },
+    {
+      "id": "services",
+      "name": "שירותים",
+      "color": "#45B7D1",
+      "description": "שירותים מקצועיים, ייעוץ, בריאות"
+    },
+    {
+      "id": "tech",
+      "name": "טכנולוגיה",
+      "color": "#96CEB4",
+      "description": "היי-טק, סטארטאפים, מחשוב"
+    },
+    {
+      "id": "construction",
+      "name": "בנייה ונדל\"ן",
+      "color": "#FFEAA7",
+      "description": "קבלנות, נדל\"ן, תשתיות"
+    }
+  ]
+}

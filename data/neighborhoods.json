@@ -1,0 +1,46 @@
+{
+  "neighborhoods": [
+    {
+      "id": "merkaz",
+      "name": "מרכז עיר",
+      "coordinates": [31.8044, 34.6553],
+      "population_estimate": 45000,
+      "area_sqm": 2500000
+    },
+    {
+      "id": "south",
+      "name": "דרום העיר",
+      "coordinates": [31.7900, 34.6450],
+      "population_estimate": 38000,
+      "area_sqm": 2200000
+    },
+    {
+      "id": "north",
+      "name": "צפון העיר",
+      "coordinates": [31.8200, 34.6600],
+      "population_estimate": 42000,
+      "area_sqm": 2800000
+    },
+    {
+      "id": "west",
+      "name": "רובע י\"ז",
+      "coordinates": [31.8100, 34.6380],
+      "population_estimate": 35000,
+      "area_sqm": 1800000
+    },
+    {
+      "id": "industrial",
+      "name": "אזור תעשייה",
+      "coordinates": [31.8250, 34.6700],
+      "population_estimate": 5000,
+      "area_sqm": 3500000
+    },
+    {
+      "id": "marina",
+      "name": "מרינה / חוף",
+      "coordinates": [31.7950, 34.6300],
+      "population_estimate": 28000,
+      "area_sqm": 1500000
+    }
+  ]
+}

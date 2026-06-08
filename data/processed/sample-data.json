@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "version": "2.0",
+    "generated": "2026-06-09T07:00:00Z",
+    "source": "sample-data",
+    "data_quality": "validated"
+  },
+  "summary": {
+    "total_businesses": 6103,
+    "total_income": 428,
+    "avg_vacancy": 0.1583,
+    "neighborhoods_count": 6,
+    "categories_count": 5,
+    "last_updated": "2026-06-09"
+  },
+  "neighborhoods": [
+    {
+      "id": "merkaz",
+      "name": "מרכז עיר",
+      "businesses": 1580,
+      "income": 112,
+      "vacancy": 0.12,
+      "categories": [
+        { "id": "general", "name": "סחורות כללי", "count": 420, "income": 32 },
+        { "id": "food", "name": "מזון ומשקה", "count": 380, "income": 28 },
+        { "id": "services", "name": "שירותים", "count": 350, "income": 25 },
+        { "id": "tech", "name": "טכנולוגיה", "count": 230, "income": 18 },
+        { "id": "construction", "name": "בנייה ונדל\"ן", "count": 200, "income": 9 }
+      ]
+    },
+    {
+      "id": "south",
+      "name": "דרום העיר",
+      "businesses": 1120,
+      "income": 78,
+      "vacancy": 0.17,
+      "categories": [
+        { "id": "general", "name": "סחורות כללי", "count": 320, "income": 22 },
+        { "id": "food", "name": "מזון ומשקה", "count": 280, "income": 19 },
+        { "id": "services", "name": "שירותים", "count": 240, "income": 17 },
+        { "id": "tech", "name": "טכנולוגיה", "count": 150, "income": 12 },
+        { "id": "construction", "name": "בנייה ונדל\"ן", "count": 130, "income": 8 }
+      ]
+    },
+    {
+      "id": "north",
+      "name": "צפון העיר",
+      "businesses": 1350,
+      "income": 98,
+      "vacancy": 0.11,
+      "categories": [
+        { "id": "general", "name": "סחורות כללי", "count": 380, "income": 28 },
+        { "id": "food", "name": "מזון ומשקה", "count": 310, "income": 22 },
+        { "id": "services", "name": "שירותים", "count": 290, "income": 21 },
+        { "id": "tech", "name": "טכנולוגיה", "count": 210, "income": 17 },
+        { "id": "construction", "name": "בנייה ונדל\"ן", "count": 160, "income": 10 }
+      ]
+    },
+    {
+      "id": "west",
+      "name": "רובע י\"ז",
+      "businesses": 850,
+      "income": 55,
+      "vacancy": 0.19,
+      "categories": [
+        { "id": "general", "name": "סחורות כללי", "count": 240, "income": 16 },
+        { "id": "food", "name": "מזון ומשקה", "count": 210, "income": 14 },
+        { "id": "services", "name": "שירותים", "count": 180, "income": 11 },
+        { "id": "tech", "name": "טכנולוגיה", "count": 110, "income": 8 },
+        { "id": "construction", "name": "בנייה ונדל\"ן", "count": 110, "income": 6 }
+      ]
+    },
+    {
+      "id": "industrial",
+      "name": "אזור תעשייה",
+      "businesses": 680,
+      "income": 52,
+      "vacancy": 0.21,
+      "categories": [
+        { "id": "general", "name": "סחורות כללי", "count": 150, "income": 12 },
+        { "id": "food", "name": "מזון ומשקה", "count": 80, "income": 5 },
+        { "id": "services", "name": "שירותים", "count": 120, "income": 9 },
+        { "id": "tech", "name": "טכנולוגיה", "count": 180, "income": 16 },
+        { "id": "construction", "name": "בנייה ונדל\"ן", "count": 150, "income": 10 }
+      ]
+    },
+    {
+      "id": "marina",
+      "name": "מרינה / חוף",
+      "businesses": 523,
+      "income": 33,
+      "vacancy": 0.15,
+      "categories": [
+        { "id": "general", "name": "סחורות כללי", "count": 120, "income": 8 },
+        { "id": "food", "name": "מזון ומשקה", "count": 160, "income": 10 },
+        { "id": "services", "name": "שירותים", "count": 110, "income": 7 },
+        { "id": "tech", "name": "טכנולוגיה", "count": 68, "income": 5 },
+        { "id": "construction", "name": "בנייה ונדל\"ן", "count": 65, "income": 3 }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "general",
+      "name": "סחורות כללי",
+      "total_count": 1630,
+      "color": "#FF6B6B",
+      "by_neighborhood": {
+        "merkaz": 420, "south": 320, "north": 380, "west": 240, "industrial": 150, "marina": 120
+      }
+    },
+    {
+      "id": "food",
+      "name": "מזון ומשקה",
+      "total_count": 1420,
+      "color": "#4ECDC4",
+      "by_neighborhood": {
+        "merkaz": 380, "south": 280, "north": 310, "west": 210, "industrial": 80, "marina": 160
+      }
+    },
+    {
+      "id": "services",
+      "name": "שירותים",
+      "total_count": 1290,
+      "color": "#45B7D1",
+      "by_neighborhood": {
+        "merkaz": 350, "south": 240, "north": 290, "west": 180, "industrial": 120, "marina": 110
+      }
+    },
+    {
+      "id": "tech",
+      "name": "טכנולוגיה",
+      "total_count": 948,
+      "color": "#96CEB4",
+      "by_neighborhood": {
+        "merkaz": 230, "south": 150, "north": 210, "west": 110, "industrial": 180, "marina": 68
+      }
+    },
+    {
+      "id": "construction",
+      "name": "בנייה ונדל\"ן",
+      "total_count": 815,
+      "color": "#FFEAA7",
+      "by_neighborhood": {
+        "merkaz": 200, "south": 130, "north": 160, "west": 110, "industrial": 150, "marina": 65
+      }
+    }
+  ]
+}
