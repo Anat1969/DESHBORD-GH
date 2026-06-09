@@ -1,15 +1,35 @@
 import { useState } from 'react'
+import neighborhoodsData from '../../data/neighborhoods.json'
 
-const ASHDOD_CENTER = { lat: 31.804, lng: 34.655 }
+// OSM zoom 13, 3x3 tile grid centered on Ashdod
+const ZOOM = 13
+const TILES = [
+  [4883, 3330], [4884, 3330], [4885, 3330],
+  [4883, 3331], [4884, 3331], [4885, 3331],
+  [4883, 3332], [4884, 3332], [4885, 3332]
+]
+const GRID_ORIGIN_X = 4883 * 256
+const GRID_ORIGIN_Y = 3330 * 256
+const GRID_SIZE = 3 * 256  // 768px
 
-const NEIGHBORHOODS = {
-  north:      { x: 58, y: 22, label: 'צפון העיר' },
-  merkaz:     { x: 50, y: 42, label: 'מרכז עיר' },
-  west:       { x: 33, y: 50, label: 'רובע י"ז' },
-  industrial: { x: 72, y: 35, label: 'אזור תעשייה' },
-  south:      { x: 48, y: 65, label: 'דרום העיר' },
-  marina:     { x: 28, y: 72, label: 'מרינה / חוף' }
+/** Convert lat/lng to percentage position within our tile grid */
+function latLngToPercent(lat, lng) {
+  const n = Math.pow(2, ZOOM)
+  const xPixel = (lng + 180) / 360 * n * 256
+  const latRad = lat * Math.PI / 180
+  const yPixel = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n * 256
+  return {
+    x: (xPixel - GRID_ORIGIN_X) / GRID_SIZE * 100,
+    y: (yPixel - GRID_ORIGIN_Y) / GRID_SIZE * 100
+  }
 }
+
+// Pre-compute positions from real coordinates
+const NEIGHBORHOOD_POS = {}
+neighborhoodsData.neighborhoods.forEach(n => {
+  const pos = latLngToPercent(n.coordinates[0], n.coordinates[1])
+  NEIGHBORHOOD_POS[n.id] = { x: pos.x, y: pos.y, label: n.name }
+})
 
 function getColor(vacancy) {
   if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.55)'
@@ -57,15 +77,10 @@ export default function GeoMap({ neighborhoods }) {
       <p className="chart-insight large">{getInsight(neighborhoods)}</p>
       <div className="geo-map-wrapper">
         <div className="geo-map-container">
-          {/* OpenStreetMap tile grid as background */}
           <div className="map-tiles">
-            {[
-              [4886, 3389], [4887, 3389], [4888, 3389],
-              [4886, 3390], [4887, 3390], [4888, 3390],
-              [4886, 3391], [4887, 3391], [4888, 3391]
-            ].map(([x, y], i) => (
+            {TILES.map(([x, y], i) => (
               <img key={i}
-                src={`https://tile.openstreetmap.org/13/${x}/${y}.png`}
+                src={`https://tile.openstreetmap.org/${ZOOM}/${x}/${y}.png`}
                 alt=""
                 className="map-tile"
                 draggable={false}
@@ -74,7 +89,7 @@ export default function GeoMap({ neighborhoods }) {
           </div>
           <div className="map-overlay">
             <svg viewBox="0 0 100 100" className="map-svg-overlay" preserveAspectRatio="none">
-              {Object.entries(NEIGHBORHOODS).map(([id, pos]) => {
+              {Object.entries(NEIGHBORHOOD_POS).map(([id, pos]) => {
                 const n = neighborhoodMap[id]
                 if (!n) return null
                 const r = getRadius(n.businesses, maxBiz) / 5
