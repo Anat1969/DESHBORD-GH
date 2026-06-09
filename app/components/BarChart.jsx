@@ -10,6 +10,7 @@ import {
   Legend,
   Filler
 } from 'chart.js'
+import NEIGHBORHOOD_COLORS from '../utils/neighborhoodColors'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
@@ -25,6 +26,19 @@ function getInsight(neighborhoods) {
 
 export default function LineChart({ neighborhoods }) {
   const sorted = [...neighborhoods].sort((a, b) => b.businesses - a.businesses)
+  const maxBiz = Math.max(...sorted.map(n => n.businesses), 1)
+
+  // Per-point colors from shared neighborhood palette
+  const pointBgColors = sorted.map(n => {
+    const c = NEIGHBORHOOD_COLORS[n.id]
+    return c ? c.bg : 'rgba(180, 195, 220, 0.6)'
+  })
+  const pointBorderColors = sorted.map(n => {
+    const c = NEIGHBORHOOD_COLORS[n.id]
+    return c ? c.border : 'rgba(180, 195, 220, 0.9)'
+  })
+  // Point radius proportional to business count — same visual weight as map markers
+  const pointRadii = sorted.map(n => 5 + (n.businesses / maxBiz) * 9)
 
   const data = {
     labels: sorted.map(n => n.name),
@@ -32,17 +46,16 @@ export default function LineChart({ neighborhoods }) {
       {
         label: 'מספר עסקים',
         data: sorted.map(n => n.businesses),
-        borderColor: 'rgba(180, 195, 220, 0.7)',
-        backgroundColor: 'rgba(180, 195, 220, 0.06)',
+        borderColor: 'rgba(180, 195, 220, 0.3)',
+        backgroundColor: 'rgba(180, 195, 220, 0.04)',
         fill: true,
         tension: 0.4,
-        pointRadius: 5,
-        pointBackgroundColor: 'rgba(180, 195, 220, 0.8)',
-        pointBorderColor: '#1a1d27',
+        pointRadius: pointRadii,
+        pointHoverRadius: pointRadii.map(r => r + 3),
+        pointBackgroundColor: pointBgColors,
+        pointBorderColor: pointBorderColors,
         pointBorderWidth: 2,
-        pointHoverRadius: 8,
-        pointHoverBackgroundColor: 'rgba(200, 210, 230, 0.9)',
-        borderWidth: 2
+        borderWidth: 1.5
       }
     ]
   }

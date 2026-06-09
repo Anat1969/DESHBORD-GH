@@ -2,22 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import neighborhoodsData from '../../data/neighborhoods.json'
-
-function getColor(vacancy) {
-  if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.6)'
-  if (vacancy <= 0.15) return 'rgba(170, 190, 220, 0.55)'
-  if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.55)'
-  if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.55)'
-  return 'rgba(210, 140, 140, 0.6)'
-}
-
-function getBorderColor(vacancy) {
-  if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.9)'
-  if (vacancy <= 0.15) return 'rgba(170, 190, 220, 0.8)'
-  if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.8)'
-  if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.8)'
-  return 'rgba(210, 140, 140, 0.9)'
-}
+import NEIGHBORHOOD_COLORS from '../utils/neighborhoodColors'
 
 function getInsight(neighborhoods) {
   if (!neighborhoods.length) return ''
@@ -94,14 +79,17 @@ export default function GeoMap({ neighborhoods }) {
       const coords = COORDS_MAP[n.id]
       if (!coords) return
 
+      // Same proportional radius as chart points (scaled for map)
       const radius = 10 + (n.businesses / maxBiz) * 22
+      // Shared color palette — same as chart points
+      const colors = NEIGHBORHOOD_COLORS[n.id] || { bg: 'rgba(180,195,220,0.6)', border: 'rgba(180,195,220,0.9)' }
 
       const circle = L.circleMarker(coords, {
         radius: radius,
-        fillColor: getColor(n.vacancy),
-        fillOpacity: 0.7,
-        color: getBorderColor(n.vacancy),
-        weight: 1.5
+        fillColor: colors.bg,
+        fillOpacity: 0.75,
+        color: colors.border,
+        weight: 2
       }).addTo(map)
 
       // Tooltip on hover
@@ -119,7 +107,7 @@ export default function GeoMap({ neighborhoods }) {
         }
       )
 
-      // Permanent label
+      // Permanent label with count
       const label = L.marker(coords, {
         icon: L.divIcon({
           className: 'map-div-label',
@@ -134,25 +122,27 @@ export default function GeoMap({ neighborhoods }) {
     })
   }, [neighborhoods, maxBiz])
 
+  // Build legend from the shared palette
+  const legendItems = neighborhoods
+    .sort((a, b) => b.businesses - a.businesses)
+    .map(n => ({
+      name: n.name,
+      color: (NEIGHBORHOOD_COLORS[n.id] || {}).bg || 'rgba(180,195,220,0.6)'
+    }))
+
   return (
     <>
       <p className="chart-insight large">{getInsight(neighborhoods)}</p>
       <div className="geo-map-wrapper">
         <div ref={mapRef} className="geo-map-leaflet" />
         <div className="map-legend">
-          <span className="map-legend-title">רמת ריקנות:</span>
-          <span className="map-legend-item">
-            <span className="legend-dot" style={{ background: 'rgba(160, 220, 190, 0.6)' }}></span>נמוכה
-          </span>
-          <span className="map-legend-item">
-            <span className="legend-dot" style={{ background: 'rgba(170, 190, 220, 0.55)' }}></span>בינונית
-          </span>
-          <span className="map-legend-item">
-            <span className="legend-dot" style={{ background: 'rgba(220, 200, 150, 0.55)' }}></span>מוגברת
-          </span>
-          <span className="map-legend-item">
-            <span className="legend-dot" style={{ background: 'rgba(210, 140, 140, 0.6)' }}></span>גבוהה
-          </span>
+          <span className="map-legend-title">שכונות:</span>
+          {legendItems.map(item => (
+            <span key={item.name} className="map-legend-item">
+              <span className="legend-dot" style={{ background: item.color }}></span>
+              {item.name}
+            </span>
+          ))}
         </div>
       </div>
     </>
