@@ -1,50 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import neighborhoodsData from '../../data/neighborhoods.json'
 
-// OSM zoom 13, 3x3 tile grid centered on Ashdod
-const ZOOM = 13
-const TILES = [
-  [4883, 3330], [4884, 3330], [4885, 3330],
-  [4883, 3331], [4884, 3331], [4885, 3331],
-  [4883, 3332], [4884, 3332], [4885, 3332]
-]
-const GRID_ORIGIN_X = 4883 * 256
-const GRID_ORIGIN_Y = 3330 * 256
-const GRID_SIZE = 3 * 256  // 768px
-
-/** Convert lat/lng to percentage position within our tile grid */
-function latLngToPercent(lat, lng) {
-  const n = Math.pow(2, ZOOM)
-  const xPixel = (lng + 180) / 360 * n * 256
-  const latRad = lat * Math.PI / 180
-  const yPixel = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n * 256
-  return {
-    x: ((xPixel - GRID_ORIGIN_X) / GRID_SIZE) * 100,
-    y: ((yPixel - GRID_ORIGIN_Y) / GRID_SIZE) * 100
-  }
-}
-
-// Pre-compute positions from real coordinates
-const NEIGHBORHOOD_POS = {}
-neighborhoodsData.neighborhoods.forEach(n => {
-  const pos = latLngToPercent(n.coordinates[0], n.coordinates[1])
-  NEIGHBORHOOD_POS[n.id] = { x: pos.x, y: pos.y, label: n.name }
-})
-
 function getColor(vacancy) {
-  if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.55)'
-  if (vacancy <= 0.15) return 'rgba(170, 190, 220, 0.5)'
-  if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.5)'
-  if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.5)'
-  return 'rgba(210, 140, 140, 0.55)'
+  if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.6)'
+  if (vacancy <= 0.15) return 'rgba(170, 190, 220, 0.55)'
+  if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.55)'
+  if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.55)'
+  return 'rgba(210, 140, 140, 0.6)'
 }
 
 function getBorderColor(vacancy) {
-  if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.8)'
-  if (vacancy <= 0.15) return 'rgba(170, 190, 220, 0.7)'
-  if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.7)'
-  if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.7)'
-  return 'rgba(210, 140, 140, 0.8)'
+  if (vacancy <= 0.12) return 'rgba(160, 220, 190, 0.9)'
+  if (vacancy <= 0.15) return 'rgba(170, 190, 220, 0.8)'
+  if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.8)'
+  if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.8)'
+  return 'rgba(210, 140, 140, 0.9)'
 }
 
 function getInsight(neighborhoods) {
@@ -61,71 +33,112 @@ function getInsight(neighborhoods) {
   return parts.join('. ') + '.'
 }
 
+// Build a lookup from neighborhoods.json coordinates
+const COORDS_MAP = {}
+neighborhoodsData.neighborhoods.forEach(n => {
+  COORDS_MAP[n.id] = n.coordinates  // [lat, lng]
+})
+
 export default function GeoMap({ neighborhoods }) {
-  const [tooltip, setTooltip] = useState(null)
+  const mapRef = useRef(null)
+  const mapInstanceRef = useRef(null)
+  const markersRef = useRef([])
 
   const neighborhoodMap = {}
   neighborhoods.forEach(n => { neighborhoodMap[n.id] = n })
   const maxBiz = Math.max(...neighborhoods.map(n => n.businesses), 1)
 
+  // Initialize map once
+  useEffect(() => {
+    if (mapInstanceRef.current || !mapRef.current) return
+
+    const map = L.map(mapRef.current, {
+      center: [31.805, 34.650],
+      zoom: 13,
+      zoomControl: false,
+      attributionControl: false
+    })
+
+    // Dark tiles from CartoDB
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 18,
+      minZoom: 11
+    }).addTo(map)
+
+    // Zoom controls on the left (RTL friendly)
+    L.control.zoom({ position: 'topleft' }).addTo(map)
+
+    // Small attribution
+    L.control.attribution({ position: 'bottomleft', prefix: false })
+      .addAttribution('© <a href="https://carto.com/" style="color:#666">CARTO</a> © <a href="https://osm.org/" style="color:#666">OSM</a>')
+      .addTo(map)
+
+    mapInstanceRef.current = map
+
+    return () => {
+      map.remove()
+      mapInstanceRef.current = null
+    }
+  }, [])
+
+  // Update markers when data changes
+  useEffect(() => {
+    const map = mapInstanceRef.current
+    if (!map) return
+
+    // Clear old markers
+    markersRef.current.forEach(m => m.remove())
+    markersRef.current = []
+
+    neighborhoods.forEach(n => {
+      const coords = COORDS_MAP[n.id]
+      if (!coords) return
+
+      const radius = 10 + (n.businesses / maxBiz) * 22
+
+      const circle = L.circleMarker(coords, {
+        radius: radius,
+        fillColor: getColor(n.vacancy),
+        fillOpacity: 0.7,
+        color: getBorderColor(n.vacancy),
+        weight: 1.5
+      }).addTo(map)
+
+      // Tooltip on hover
+      circle.bindTooltip(
+        `<div class="map-tip">
+          <strong>${n.name}</strong>
+          <div>${n.businesses.toLocaleString('he-IL')} עסקים</div>
+          <div>הכנסות: ${n.income} אלף ₪</div>
+          <div>ריקנות: ${(n.vacancy * 100).toFixed(1)}%</div>
+        </div>`,
+        {
+          direction: 'top',
+          offset: [0, -radius],
+          className: 'leaflet-dark-tooltip'
+        }
+      )
+
+      // Permanent label
+      const label = L.marker(coords, {
+        icon: L.divIcon({
+          className: 'map-div-label',
+          html: `<span class="map-label-name">${n.name}</span>
+                 <span class="map-label-count">${n.businesses.toLocaleString('he-IL')}</span>`,
+          iconSize: [0, 0],
+          iconAnchor: [0, radius + 16]
+        })
+      }).addTo(map)
+
+      markersRef.current.push(circle, label)
+    })
+  }, [neighborhoods, maxBiz])
+
   return (
     <>
       <p className="chart-insight large">{getInsight(neighborhoods)}</p>
       <div className="geo-map-wrapper">
-        <div className="geo-map-container">
-          <div className="map-tiles">
-            {TILES.map(([x, y], i) => (
-              <img key={i}
-                src={`https://tile.openstreetmap.org/${ZOOM}/${x}/${y}.png`}
-                alt=""
-                className="map-tile"
-                draggable={false}
-              />
-            ))}
-          </div>
-          <div className="map-overlay">
-            {Object.entries(NEIGHBORHOOD_POS).map(([id, pos]) => {
-              const n = neighborhoodMap[id]
-              if (!n) return null
-              const sizePx = 12 + (n.businesses / maxBiz) * 28
-              const fill = getColor(n.vacancy)
-              const border = getBorderColor(n.vacancy)
-
-              return (
-                <div key={id}
-                  className="map-marker"
-                  style={{
-                    left: `${pos.x}%`,
-                    top: `${pos.y}%`,
-                    width: sizePx,
-                    height: sizePx,
-                    background: fill,
-                    borderColor: border
-                  }}
-                  onMouseEnter={(e) => setTooltip({
-                    x: e.clientX, y: e.clientY,
-                    name: n.name, businesses: n.businesses,
-                    income: n.income, vacancy: n.vacancy
-                  })}
-                  onMouseLeave={() => setTooltip(null)}
-                >
-                  <span className="map-marker-label">{pos.label}</span>
-                  <span className="map-marker-count">{n.businesses.toLocaleString('he-IL')}</span>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {tooltip && (
-          <div className="map-tooltip" style={{ left: tooltip.x + 14, top: tooltip.y - 70 }}>
-            <strong>{tooltip.name}</strong>
-            <div>{tooltip.businesses.toLocaleString('he-IL')} עסקים</div>
-            <div>הכנסות: {tooltip.income} אלף ₪</div>
-            <div>ריקנות: {(tooltip.vacancy * 100).toFixed(1)}%</div>
-          </div>
-        )}
-
+        <div ref={mapRef} className="geo-map-leaflet" />
         <div className="map-legend">
           <span className="map-legend-title">רמת ריקנות:</span>
           <span className="map-legend-item">
