@@ -388,8 +388,8 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  opacity: 0.3;
-  filter: saturate(0.2) brightness(0.6);
+  opacity: 0.45;
+  filter: saturate(0.3) brightness(0.7);
   pointer-events: none;
 }
 
@@ -407,37 +407,42 @@ body {
   height: 100%;
 }
 
-.map-svg-overlay {
-  width: 100%;
-  height: 100%;
-}
-
-.marker-count {
-  font-family: 'Rubik', sans-serif;
-  font-size: 8px;
-  fill: rgba(220, 225, 235, 0.7);
-}
-
-.neighborhood-marker {
+.map-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.5px solid;
   cursor: pointer;
-  transition: opacity 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.neighborhood-marker:hover {
-  opacity: 1 !important;
+.map-marker:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 0 12px rgba(180, 200, 230, 0.3);
+  z-index: 10;
 }
 
-.marker-label {
-  font-family: 'Rubik', sans-serif;
-  font-size: 10px;
+.map-marker-label {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  white-space: nowrap;
+  font-size: 0.65rem;
   font-weight: 600;
-  fill: var(--color-text);
+  color: var(--color-text);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 6px rgba(0,0,0,0.5);
+  pointer-events: none;
 }
 
-.marker-value {
-  font-family: 'Rubik', sans-serif;
-  font-size: 9px;
-  fill: var(--color-text-secondary);
+.map-marker-count {
+  font-size: 0.58rem;
+  font-weight: 500;
+  color: rgba(230, 235, 245, 0.85);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  pointer-events: none;
 }
 
 .map-tooltip {

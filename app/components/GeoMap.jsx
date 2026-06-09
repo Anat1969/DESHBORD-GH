@@ -19,8 +19,8 @@ function latLngToPercent(lat, lng) {
   const latRad = lat * Math.PI / 180
   const yPixel = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n * 256
   return {
-    x: (xPixel - GRID_ORIGIN_X) / GRID_SIZE * 100,
-    y: (yPixel - GRID_ORIGIN_Y) / GRID_SIZE * 100
+    x: ((xPixel - GRID_ORIGIN_X) / GRID_SIZE) * 100,
+    y: ((yPixel - GRID_ORIGIN_Y) / GRID_SIZE) * 100
   }
 }
 
@@ -45,10 +45,6 @@ function getBorderColor(vacancy) {
   if (vacancy <= 0.18) return 'rgba(220, 200, 150, 0.7)'
   if (vacancy <= 0.20) return 'rgba(220, 170, 150, 0.7)'
   return 'rgba(210, 140, 140, 0.8)'
-}
-
-function getRadius(businesses, max) {
-  return 18 + (businesses / max) * 30
 }
 
 function getInsight(neighborhoods) {
@@ -88,38 +84,36 @@ export default function GeoMap({ neighborhoods }) {
             ))}
           </div>
           <div className="map-overlay">
-            <svg viewBox="0 0 100 100" className="map-svg-overlay" preserveAspectRatio="none">
-              {Object.entries(NEIGHBORHOOD_POS).map(([id, pos]) => {
-                const n = neighborhoodMap[id]
-                if (!n) return null
-                const r = getRadius(n.businesses, maxBiz) / 5
-                const fill = getColor(n.vacancy)
-                const stroke = getBorderColor(n.vacancy)
+            {Object.entries(NEIGHBORHOOD_POS).map(([id, pos]) => {
+              const n = neighborhoodMap[id]
+              if (!n) return null
+              const sizePx = 12 + (n.businesses / maxBiz) * 28
+              const fill = getColor(n.vacancy)
+              const border = getBorderColor(n.vacancy)
 
-                return (
-                  <g key={id}
-                    className="neighborhood-marker"
-                    onMouseEnter={(e) => setTooltip({
-                      x: e.clientX, y: e.clientY,
-                      name: n.name, businesses: n.businesses,
-                      income: n.income, vacancy: n.vacancy
-                    })}
-                    onMouseLeave={() => setTooltip(null)}
-                  >
-                    <circle cx={pos.x} cy={pos.y} r={r}
-                      fill={fill} stroke={stroke} strokeWidth="0.4" />
-                    <text x={pos.x} y={pos.y - r - 1.5}
-                      textAnchor="middle" className="marker-label">
-                      {pos.label}
-                    </text>
-                    <text x={pos.x} y={pos.y + 1}
-                      textAnchor="middle" className="marker-count">
-                      {n.businesses.toLocaleString('he-IL')}
-                    </text>
-                  </g>
-                )
-              })}
-            </svg>
+              return (
+                <div key={id}
+                  className="map-marker"
+                  style={{
+                    left: `${pos.x}%`,
+                    top: `${pos.y}%`,
+                    width: sizePx,
+                    height: sizePx,
+                    background: fill,
+                    borderColor: border
+                  }}
+                  onMouseEnter={(e) => setTooltip({
+                    x: e.clientX, y: e.clientY,
+                    name: n.name, businesses: n.businesses,
+                    income: n.income, vacancy: n.vacancy
+                  })}
+                  onMouseLeave={() => setTooltip(null)}
+                >
+                  <span className="map-marker-label">{pos.label}</span>
+                  <span className="map-marker-count">{n.businesses.toLocaleString('he-IL')}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
 
