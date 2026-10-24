@@ -38,6 +38,7 @@ export default function Dashboard() {
           <span className="last-updated">
             עדכון אחרון: {filteredData.summary.last_updated}
           </span>
+          <ai-menu></ai-menu>
         </header>
         <KPICards summary={filteredData.summary} />
         <div className="charts-row">
