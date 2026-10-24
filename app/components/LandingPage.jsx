@@ -1,6 +1,7 @@
 export default function LandingPage({ summary, onEnter }) {
   return (
     <div className="landing-page">
+      <ai-menu data-floating=""></ai-menu>
       <div className="landing-hero">
         <h1>דשבורד עסקים עירוני</h1>
         <p className="subtitle">
