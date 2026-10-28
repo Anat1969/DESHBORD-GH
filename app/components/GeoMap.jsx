@@ -18,10 +18,9 @@ function getInsight(neighborhoods) {
   return parts.join('. ') + '.'
 }
 
-// Build a lookup from neighborhoods.json coordinates
 const COORDS_MAP = {}
 neighborhoodsData.neighborhoods.forEach(n => {
-  COORDS_MAP[n.id] = n.coordinates  // [lat, lng]
+  COORDS_MAP[n.id] = n.coordinates
 })
 
 export default function GeoMap({ neighborhoods }) {
@@ -44,16 +43,15 @@ export default function GeoMap({ neighborhoods }) {
       attributionControl: false
     })
 
-    // Dark tiles from CartoDB
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    // OpenStreetMap dark tiles (free, no API key)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
-      minZoom: 11
+      minZoom: 11,
+      className: 'dark-tiles'
     }).addTo(map)
 
-    // Zoom controls on the left (RTL friendly)
     L.control.zoom({ position: 'topleft' }).addTo(map)
 
-    // Small attribution
     L.control.attribution({ position: 'bottomleft', prefix: false })
       .addAttribution('© <a href="https://carto.com/" style="color:#666">CARTO</a> © <a href="https://osm.org/" style="color:#666">OSM</a>')
       .addTo(map)
@@ -66,39 +64,57 @@ export default function GeoMap({ neighborhoods }) {
     }
   }, [])
 
-  // Update markers when data changes
+  // Update markers with pulse animation
   useEffect(() => {
     const map = mapInstanceRef.current
     if (!map) return
 
-    // Clear old markers
     markersRef.current.forEach(m => m.remove())
     markersRef.current = []
 
-    neighborhoods.forEach(n => {
+    neighborhoods.forEach((n, i) => {
       const coords = COORDS_MAP[n.id]
       if (!coords) return
 
-      // Same proportional radius as chart points (scaled for map)
-      const radius = 10 + (n.businesses / maxBiz) * 22
-      // Shared color palette — same as chart points
+      const radius = 10 + (n.businesses / maxBiz) * 24
       const colors = NEIGHBORHOOD_COLORS[n.id] || { bg: 'rgba(180,195,220,0.6)', border: 'rgba(180,195,220,0.9)' }
 
+      // Outer pulse ring (animated glow)
+      const pulseSize = radius * 2.5
+      const pulseMarker = L.marker(coords, {
+        icon: L.divIcon({
+          className: '',
+          html: `<div style="
+            width: ${pulseSize}px;
+            height: ${pulseSize}px;
+            border-radius: 50%;
+            background: ${colors.bg.replace(/[\d.]+\)$/, '0.15)')};
+            animation: marker-pulse 3s ease-in-out infinite;
+            animation-delay: ${i * 0.4}s;
+          "></div>`,
+          iconSize: [pulseSize, pulseSize],
+          iconAnchor: [pulseSize / 2, pulseSize / 2]
+        }),
+        interactive: false
+      }).addTo(map)
+
+      // Main circle marker
       const circle = L.circleMarker(coords, {
         radius: radius,
         fillColor: colors.bg,
-        fillOpacity: 0.75,
+        fillOpacity: 0.8,
         color: colors.border,
         weight: 2
       }).addTo(map)
 
-      // Tooltip on hover
+      // Rich tooltip
+      const vacancyClass = n.vacancy > 0.17 ? 'color: rgba(220,130,130,0.9)' : n.vacancy <= 0.12 ? 'color: rgba(130,220,180,0.9)' : ''
       circle.bindTooltip(
         `<div class="map-tip">
           <strong>${n.name}</strong>
           <div>${n.businesses.toLocaleString('he-IL')} עסקים</div>
           <div>הכנסות: ${n.income} אלף ₪</div>
-          <div>ריקנות: ${(n.vacancy * 100).toFixed(1)}%</div>
+          <div style="${vacancyClass}">ריקנות: ${(n.vacancy * 100).toFixed(1)}%</div>
         </div>`,
         {
           direction: 'top',
@@ -107,22 +123,29 @@ export default function GeoMap({ neighborhoods }) {
         }
       )
 
-      // Permanent label with count
+      // Hover effect
+      circle.on('mouseover', () => {
+        circle.setStyle({ fillOpacity: 1, weight: 3 })
+      })
+      circle.on('mouseout', () => {
+        circle.setStyle({ fillOpacity: 0.8, weight: 2 })
+      })
+
+      // Permanent label
       const label = L.marker(coords, {
         icon: L.divIcon({
           className: 'map-div-label',
           html: `<span class="map-label-name">${n.name}</span>
                  <span class="map-label-count">${n.businesses.toLocaleString('he-IL')}</span>`,
           iconSize: [0, 0],
-          iconAnchor: [0, radius + 16]
+          iconAnchor: [0, radius + 18]
         })
       }).addTo(map)
 
-      markersRef.current.push(circle, label)
+      markersRef.current.push(pulseMarker, circle, label)
     })
   }, [neighborhoods, maxBiz])
 
-  // Build legend from the shared palette
   const legendItems = neighborhoods
     .sort((a, b) => b.businesses - a.businesses)
     .map(n => ({

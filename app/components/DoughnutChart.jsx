@@ -5,6 +5,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
+import useCountUp from '../hooks/useCountUp'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -21,25 +22,38 @@ function getInsight(categories) {
 }
 
 const SILVER_COLORS = [
-  'rgba(170, 190, 220, 0.6)',
-  'rgba(160, 210, 190, 0.55)',
-  'rgba(190, 175, 220, 0.55)',
-  'rgba(210, 200, 160, 0.55)',
-  'rgba(210, 170, 170, 0.5)'
+  'rgba(130, 175, 230, 0.65)',
+  'rgba(120, 210, 180, 0.6)',
+  'rgba(175, 160, 220, 0.6)',
+  'rgba(220, 200, 140, 0.6)',
+  'rgba(220, 150, 150, 0.55)'
+]
+
+const SILVER_HOVER = [
+  'rgba(130, 175, 230, 0.85)',
+  'rgba(120, 210, 180, 0.8)',
+  'rgba(175, 160, 220, 0.8)',
+  'rgba(220, 200, 140, 0.8)',
+  'rgba(220, 150, 150, 0.75)'
 ]
 
 export default function DoughnutChart({ categories }) {
+  const totalBusinesses = categories.reduce((sum, c) => sum + c.total_count, 0)
+  const animatedTotal = useCountUp(totalBusinesses, 1200)
+
   const data = {
     labels: categories.map(c => c.name),
     datasets: [
       {
         data: categories.map(c => c.total_count),
         backgroundColor: SILVER_COLORS.slice(0, categories.length),
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.06)',
-        hoverOffset: 6,
+        hoverBackgroundColor: SILVER_HOVER.slice(0, categories.length),
+        borderWidth: 0,
+        hoverOffset: 8,
         hoverBorderWidth: 2,
-        hoverBorderColor: 'rgba(255,255,255,0.2)'
+        hoverBorderColor: 'rgba(255,255,255,0.2)',
+        spacing: 2,
+        borderRadius: 4
       }
     ]
   }
@@ -47,7 +61,13 @@ export default function DoughnutChart({ categories }) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: '62%',
+    cutout: '65%',
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 1200,
+      easing: 'easeOutQuart'
+    },
     plugins: {
       legend: {
         position: 'bottom',
@@ -55,7 +75,7 @@ export default function DoughnutChart({ categories }) {
         labels: {
           font: { family: 'Rubik, sans-serif', size: 12 },
           color: 'rgba(180, 190, 210, 0.5)',
-          padding: 18,
+          padding: 20,
           usePointStyle: true,
           pointStyleWidth: 10
         }
@@ -63,32 +83,34 @@ export default function DoughnutChart({ categories }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: 'rgba(26, 29, 39, 0.95)',
-        borderColor: 'rgba(255,255,255,0.08)',
+        backgroundColor: 'rgba(16, 18, 28, 0.95)',
+        borderColor: 'rgba(100, 180, 255, 0.12)',
         borderWidth: 1,
-        titleFont: { family: 'Rubik, sans-serif', size: 13 },
+        titleFont: { family: 'Rubik, sans-serif', size: 13, weight: '500' },
         bodyFont: { family: 'Rubik, sans-serif', size: 12 },
-        padding: 12,
+        padding: 14,
+        cornerRadius: 10,
+        displayColors: true,
         callbacks: {
           label: (ctx) => {
             const total = ctx.dataset.data.reduce((a, b) => a + b, 0)
             const pct = ((ctx.parsed / total) * 100).toFixed(1)
-            return `${ctx.label}: ${ctx.parsed.toLocaleString('he-IL')} (${pct}%)`
+            return ` ${ctx.label}: ${ctx.parsed.toLocaleString('he-IL')} (${pct}%)`
           }
         }
       }
     }
   }
 
-  const totalBusinesses = categories.reduce((sum, c) => sum + c.total_count, 0)
-
   return (
     <>
       <p className="chart-insight large">{getInsight(categories)}</p>
-      <div style={{ height: 280, position: 'relative' }}>
+      <div style={{ height: 300, position: 'relative' }}>
         <Doughnut data={data} options={options} />
         <div className="doughnut-center">
-          <span className="doughnut-center-value">{totalBusinesses.toLocaleString('he-IL')}</span>
+          <span className="doughnut-center-value">
+            {animatedTotal.toLocaleString('he-IL')}
+          </span>
           <span className="doughnut-center-label">סה"כ</span>
         </div>
       </div>

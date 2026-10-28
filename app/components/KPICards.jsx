@@ -1,3 +1,5 @@
+import useCountUp from '../hooks/useCountUp'
+
 function getInsight(summary) {
   const vacancy = summary.avg_vacancy
   const businesses = summary.total_businesses
@@ -20,6 +22,19 @@ function getInsight(summary) {
   }
 }
 
+function AnimatedValue({ value, color, unit, decimals = 0 }) {
+  const numValue = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : value
+  const animated = useCountUp(numValue, 1000, decimals)
+  const display = isNaN(animated) ? value : animated.toLocaleString('he-IL')
+
+  return (
+    <span className="kpi-value" style={{ color }}>
+      {display}
+      {unit && <span className="kpi-unit">{unit}</span>}
+    </span>
+  )
+}
+
 export default function KPICards({ summary }) {
   const insights = getInsight(summary)
   const vacancyColor = summary.avg_vacancy > 0.18 ? 'var(--color-risk)' : 'var(--color-growth)'
@@ -27,31 +42,40 @@ export default function KPICards({ summary }) {
   const cards = [
     {
       label: 'סה"כ עסקים',
-      value: summary.total_businesses.toLocaleString('he-IL'),
+      value: summary.total_businesses,
       unit: '',
       color: 'var(--color-neutral)',
-      insight: insights.businesses
+      icon: '🏪',
+      insight: insights.businesses,
+      progress: Math.min(summary.total_businesses / 8000, 1)
     },
     {
       label: 'שכונות במעקב',
       value: summary.neighborhoods_count,
       unit: '',
       color: 'var(--color-info)',
-      insight: insights.neighborhoods
+      icon: '🗺️',
+      insight: insights.neighborhoods,
+      progress: summary.neighborhoods_count / 10
     },
     {
       label: 'הכנסות כולל',
-      value: summary.total_income.toLocaleString('he-IL'),
+      value: summary.total_income,
       unit: 'אלף ₪',
       color: 'var(--color-growth)',
-      insight: insights.income
+      icon: '💰',
+      insight: insights.income,
+      progress: Math.min(summary.total_income / 600, 1)
     },
     {
       label: 'ריקנות ממוצעת',
       value: (summary.avg_vacancy * 100).toFixed(1),
       unit: '%',
       color: vacancyColor,
-      insight: insights.vacancy
+      icon: '📉',
+      insight: insights.vacancy,
+      progress: summary.avg_vacancy,
+      decimals: 1
     }
   ]
 
@@ -59,11 +83,33 @@ export default function KPICards({ summary }) {
     <div className="kpi-row">
       {cards.map((card) => (
         <div key={card.label} className="kpi-card">
-          <span className="kpi-label">{card.label}</span>
-          <span className="kpi-value" style={{ color: card.color }}>
-            {card.value}
-            {card.unit && <span className="kpi-unit">{card.unit}</span>}
-          </span>
+          <div
+            className="kpi-card-accent"
+            style={{
+              position: 'absolute', top: 0, left: 0, right: 0,
+              height: '3px', borderRadius: '3px 3px 0 0',
+              background: card.color, opacity: 0.5
+            }}
+          />
+          <div className="kpi-header">
+            <span className="kpi-label">{card.label}</span>
+            <span className="kpi-icon">{card.icon}</span>
+          </div>
+          <AnimatedValue
+            value={card.value}
+            color={card.color}
+            unit={card.unit}
+            decimals={card.decimals || 0}
+          />
+          <div className="kpi-progress">
+            <div
+              className="kpi-progress-bar"
+              style={{
+                width: `${Math.round(card.progress * 100)}%`,
+                background: card.color
+              }}
+            />
+          </div>
           <span className="kpi-insight">{card.insight}</span>
         </div>
       ))}

@@ -21,14 +21,13 @@ function getInsight(neighborhoods) {
   const bottom = sorted[sorted.length - 1]
   const gap = top.businesses - bottom.businesses
   const ratio = (top.businesses / bottom.businesses).toFixed(1)
-  return `${top.name} מובילה עם ${top.businesses.toLocaleString('he-IL')} עסקים — פי ${ratio} מ${bottom.name} (${bottom.businesses.toLocaleString('he-IL')}). פער של ${gap.toLocaleString('he-IL')} עסקים מצביע על ריכוזיות עסקית גבוהה שעלולה ליצור תלות כלכלית באזורים מסוימים. מומלץ לבחון תמריצים לפיזור עסקי`
+  return `${top.name} מובילה עם ${top.businesses.toLocaleString('he-IL')} עסקים — פי ${ratio} מ${bottom.name} (${bottom.businesses.toLocaleString('he-IL')}). פער של ${gap.toLocaleString('he-IL')} עסקים מצביע על ריכוזיות עסקית גבוהה שעלולה ליצור תלות כלכלית באזורים מסוימים`
 }
 
 export default function LineChart({ neighborhoods }) {
   const sorted = [...neighborhoods].sort((a, b) => b.businesses - a.businesses)
   const maxBiz = Math.max(...sorted.map(n => n.businesses), 1)
 
-  // Per-point colors from shared neighborhood palette
   const pointBgColors = sorted.map(n => {
     const c = NEIGHBORHOOD_COLORS[n.id]
     return c ? c.bg : 'rgba(180, 195, 220, 0.6)'
@@ -37,7 +36,6 @@ export default function LineChart({ neighborhoods }) {
     const c = NEIGHBORHOOD_COLORS[n.id]
     return c ? c.border : 'rgba(180, 195, 220, 0.9)'
   })
-  // Point radius proportional to business count — same visual weight as map markers
   const pointRadii = sorted.map(n => 5 + (n.businesses / maxBiz) * 9)
 
   const data = {
@@ -46,16 +44,23 @@ export default function LineChart({ neighborhoods }) {
       {
         label: 'מספר עסקים',
         data: sorted.map(n => n.businesses),
-        borderColor: 'rgba(180, 195, 220, 0.3)',
-        backgroundColor: 'rgba(180, 195, 220, 0.04)',
+        borderColor: 'rgba(100, 180, 255, 0.25)',
+        backgroundColor: (ctx) => {
+          if (!ctx.chart.chartArea) return 'rgba(100, 180, 255, 0.04)'
+          const gradient = ctx.chart.ctx.createLinearGradient(0, ctx.chart.chartArea.top, 0, ctx.chart.chartArea.bottom)
+          gradient.addColorStop(0, 'rgba(100, 180, 255, 0.12)')
+          gradient.addColorStop(1, 'rgba(100, 180, 255, 0)')
+          return gradient
+        },
         fill: true,
-        tension: 0.4,
+        tension: 0.45,
         pointRadius: pointRadii,
-        pointHoverRadius: pointRadii.map(r => r + 3),
+        pointHoverRadius: pointRadii.map(r => r + 4),
         pointBackgroundColor: pointBgColors,
         pointBorderColor: pointBorderColors,
         pointBorderWidth: 2,
-        borderWidth: 1.5
+        borderWidth: 2,
+        pointHitRadius: 20
       }
     ]
   }
@@ -63,18 +68,30 @@ export default function LineChart({ neighborhoods }) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: {
+      duration: 1200,
+      easing: 'easeOutQuart',
+      delay: (ctx) => ctx.dataIndex * 100
+    },
+    interaction: {
+      mode: 'nearest',
+      intersect: false
+    },
     plugins: {
       legend: { display: false },
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: 'rgba(26, 29, 39, 0.95)',
-        borderColor: 'rgba(255,255,255,0.08)',
+        backgroundColor: 'rgba(16, 18, 28, 0.95)',
+        borderColor: 'rgba(100, 180, 255, 0.12)',
         borderWidth: 1,
-        titleFont: { family: 'Rubik, sans-serif', size: 13 },
+        titleFont: { family: 'Rubik, sans-serif', size: 13, weight: '500' },
         bodyFont: { family: 'Rubik, sans-serif', size: 12 },
-        padding: 12,
+        padding: 14,
+        cornerRadius: 10,
+        displayColors: false,
         callbacks: {
+          title: (items) => items[0]?.label || '',
           label: (ctx) => `${ctx.parsed.y.toLocaleString('he-IL')} עסקים`
         }
       }
@@ -83,7 +100,7 @@ export default function LineChart({ neighborhoods }) {
       x: {
         ticks: {
           font: { family: 'Rubik, sans-serif', size: 12 },
-          color: 'rgba(180, 190, 210, 0.5)'
+          color: 'rgba(180, 190, 210, 0.45)'
         },
         grid: { display: false },
         border: { color: 'rgba(255,255,255,0.04)' }
@@ -92,10 +109,10 @@ export default function LineChart({ neighborhoods }) {
         beginAtZero: true,
         ticks: {
           font: { family: 'Rubik, sans-serif', size: 11 },
-          color: 'rgba(180, 190, 210, 0.35)',
+          color: 'rgba(180, 190, 210, 0.3)',
           callback: (v) => v.toLocaleString('he-IL')
         },
-        grid: { color: 'rgba(255,255,255,0.03)' },
+        grid: { color: 'rgba(255,255,255,0.025)' },
         border: { display: false }
       }
     }
@@ -104,7 +121,7 @@ export default function LineChart({ neighborhoods }) {
   return (
     <>
       <p className="chart-insight large">{getInsight(neighborhoods)}</p>
-      <div style={{ height: 280 }}>
+      <div style={{ height: 300 }}>
         <Line data={data} options={options} />
       </div>
     </>

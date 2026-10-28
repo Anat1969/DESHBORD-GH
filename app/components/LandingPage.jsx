@@ -1,7 +1,26 @@
+import useCountUp from '../hooks/useCountUp'
+import AnimatedBackground from './AnimatedBackground'
+
+function AnimatedStat({ value, label, suffix = '' }) {
+  const numValue = typeof value === 'number' ? value : parseFloat(String(value).replace(/,/g, ''))
+  const isDecimal = String(value).includes('.')
+  const animated = useCountUp(numValue, 1400, isDecimal ? 1 : 0)
+  const display = isNaN(animated) ? value : animated.toLocaleString('he-IL')
+
+  return (
+    <div className="landing-stat">
+      <span className="landing-stat-value">
+        {display}{suffix}
+      </span>
+      <span className="landing-stat-label">{label}</span>
+    </div>
+  )
+}
+
 export default function LandingPage({ summary, onEnter }) {
   return (
     <div className="landing-page">
-      <ai-menu data-floating=""></ai-menu>
+      <AnimatedBackground />
       <div className="landing-hero">
         <h1>דשבורד עסקים עירוני</h1>
         <p className="subtitle">
@@ -10,37 +29,36 @@ export default function LandingPage({ summary, onEnter }) {
           לקבלת החלטות מושכלת ברמה העירונית.
         </p>
         <button className="landing-btn" onClick={onEnter}>
-          כניסה לדשבורד
+          <span>כניסה לדשבורד</span>
+          <span style={{ fontSize: '1.2rem' }}>←</span>
         </button>
       </div>
 
       {summary && (
         <div className="landing-stats">
-          <div className="landing-stat">
-            <span className="landing-stat-value">
-              {summary.total_businesses.toLocaleString('he-IL')}
-            </span>
-            <span className="landing-stat-label">עסקים פעילים</span>
-          </div>
-          <div className="landing-stat">
-            <span className="landing-stat-value">{summary.neighborhoods_count}</span>
-            <span className="landing-stat-label">שכונות במעקב</span>
-          </div>
-          <div className="landing-stat">
-            <span className="landing-stat-value">{summary.total_income}</span>
-            <span className="landing-stat-label">הכנסות (אלף ₪)</span>
-          </div>
-          <div className="landing-stat">
-            <span className="landing-stat-value">
-              {(summary.avg_vacancy * 100).toFixed(1)}%
-            </span>
-            <span className="landing-stat-label">ריקנות ממוצעת</span>
-          </div>
+          <AnimatedStat
+            value={summary.total_businesses}
+            label="עסקים פעילים"
+          />
+          <AnimatedStat
+            value={summary.neighborhoods_count}
+            label="שכונות במעקב"
+          />
+          <AnimatedStat
+            value={summary.total_income}
+            label="הכנסות (אלף ₪)"
+          />
+          <AnimatedStat
+            value={(summary.avg_vacancy * 100).toFixed(1)}
+            label="ריקנות ממוצעת"
+            suffix="%"
+          />
         </div>
       )}
 
       <div className="landing-features">
         <div className="landing-feature">
+          <span className="feature-icon">📊</span>
           <h3>ניתוח שכונתי</h3>
           <p>
             השוואה בין שכונות לפי נפח עסקי, הכנסות ואחוזי ריקנות.
@@ -48,13 +66,15 @@ export default function LandingPage({ summary, onEnter }) {
           </p>
         </div>
         <div className="landing-feature">
+          <span className="feature-icon">📈</span>
           <h3>מגמות והתפתחות</h3>
           <p>
             מעקב אחר שינויים לאורך זמן.
-            גרפים קוויים שמראים את הכיוון — צמיחה, ירידה או יציבות.
+            גרפים שמראים את הכיוון — צמיחה, ירידה או יציבות.
           </p>
         </div>
         <div className="landing-feature">
+          <span className="feature-icon">💡</span>
           <h3>תובנות לפעולה</h3>
           <p>
             כל נתון מלווה בפרשנות.
