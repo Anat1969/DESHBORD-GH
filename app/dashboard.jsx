@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useDashboard } from './context/DashboardContext'
 import LandingPage from './components/LandingPage'
 import KPICards from './components/KPICards'
@@ -35,7 +36,12 @@ export default function Dashboard() {
       <AnimatedBackground />
       <Sidebar />
       <main className="dashboard-main">
-        <header className="dashboard-header">
+        <motion.header
+          className="dashboard-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <h1>דשבורד עסקים — אשדוד</h1>
           <div className="header-right">
             <span className="pulse-dot" />
@@ -43,31 +49,40 @@ export default function Dashboard() {
               עדכון אחרון: {filteredData.summary.last_updated}
             </span>
           </div>
-        </header>
+        </motion.header>
+
         <KPICards summary={filteredData.summary} />
+
         <div className="charts-row">
-          <div className="chart-container chart-line">
-            <h2>
-              <span className="chart-icon">📊</span>
-              עסקים לפי שכונה
-            </h2>
+          <motion.div
+            className="chart-container chart-line"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2>עסקים לפי שכונה</h2>
             <LineChart neighborhoods={filteredData.neighborhoods} />
-          </div>
-          <div className="chart-container chart-doughnut">
-            <h2>
-              <span className="chart-icon">🔵</span>
-              חלוקה לפי קטגוריה
-            </h2>
+          </motion.div>
+          <motion.div
+            className="chart-container chart-doughnut"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2>חלוקה לפי קטגוריה</h2>
             <DoughnutChart categories={filteredData.categories} />
-          </div>
+          </motion.div>
         </div>
-        <div className="map-section">
-          <h2>
-            <span className="chart-icon">🌍</span>
-            תפוסה גיאוגרפית
-          </h2>
+
+        <motion.div
+          className="map-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2>תפוסה גיאוגרפית</h2>
           <GeoMap neighborhoods={filteredData.neighborhoods} />
-        </div>
+        </motion.div>
       </main>
     </div>
   )

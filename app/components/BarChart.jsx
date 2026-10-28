@@ -30,11 +30,11 @@ export default function LineChart({ neighborhoods }) {
 
   const pointBgColors = sorted.map(n => {
     const c = NEIGHBORHOOD_COLORS[n.id]
-    return c ? c.bg : 'rgba(180, 195, 220, 0.6)'
+    return c ? c.bg : 'rgba(212, 180, 120, 0.6)'
   })
   const pointBorderColors = sorted.map(n => {
     const c = NEIGHBORHOOD_COLORS[n.id]
-    return c ? c.border : 'rgba(180, 195, 220, 0.9)'
+    return c ? c.border : 'rgba(212, 180, 120, 0.9)'
   })
   const pointRadii = sorted.map(n => 5 + (n.businesses / maxBiz) * 9)
 
@@ -44,12 +44,13 @@ export default function LineChart({ neighborhoods }) {
       {
         label: 'מספר עסקים',
         data: sorted.map(n => n.businesses),
-        borderColor: 'rgba(100, 180, 255, 0.25)',
+        borderColor: 'rgba(212, 148, 10, 0.3)',
         backgroundColor: (ctx) => {
-          if (!ctx.chart.chartArea) return 'rgba(100, 180, 255, 0.04)'
+          if (!ctx.chart.chartArea) return 'rgba(212, 148, 10, 0.04)'
           const gradient = ctx.chart.ctx.createLinearGradient(0, ctx.chart.chartArea.top, 0, ctx.chart.chartArea.bottom)
-          gradient.addColorStop(0, 'rgba(100, 180, 255, 0.12)')
-          gradient.addColorStop(1, 'rgba(100, 180, 255, 0)')
+          gradient.addColorStop(0, 'rgba(212, 148, 10, 0.15)')
+          gradient.addColorStop(0.6, 'rgba(212, 148, 10, 0.04)')
+          gradient.addColorStop(1, 'rgba(212, 148, 10, 0)')
           return gradient
         },
         fill: true,
@@ -82,13 +83,13 @@ export default function LineChart({ neighborhoods }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: 'rgba(16, 18, 28, 0.95)',
-        borderColor: 'rgba(100, 180, 255, 0.12)',
+        backgroundColor: 'rgba(12, 14, 21, 0.96)',
+        borderColor: 'rgba(212, 148, 10, 0.15)',
         borderWidth: 1,
-        titleFont: { family: 'Rubik, sans-serif', size: 13, weight: '500' },
-        bodyFont: { family: 'Rubik, sans-serif', size: 12 },
+        titleFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 13, weight: '500' },
+        bodyFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 12 },
         padding: 14,
-        cornerRadius: 10,
+        cornerRadius: 0,
         displayColors: false,
         callbacks: {
           title: (items) => items[0]?.label || '',
@@ -99,20 +100,20 @@ export default function LineChart({ neighborhoods }) {
     scales: {
       x: {
         ticks: {
-          font: { family: 'Rubik, sans-serif', size: 12 },
-          color: 'rgba(180, 190, 210, 0.45)'
+          font: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 12 },
+          color: 'rgba(154, 147, 134, 0.5)'
         },
         grid: { display: false },
-        border: { color: 'rgba(255,255,255,0.04)' }
+        border: { color: 'rgba(212, 148, 10, 0.06)' }
       },
       y: {
         beginAtZero: true,
         ticks: {
-          font: { family: 'Rubik, sans-serif', size: 11 },
-          color: 'rgba(180, 190, 210, 0.3)',
+          font: { family: 'IBM Plex Mono, monospace', size: 11 },
+          color: 'rgba(154, 147, 134, 0.35)',
           callback: (v) => v.toLocaleString('he-IL')
         },
-        grid: { color: 'rgba(255,255,255,0.025)' },
+        grid: { color: 'rgba(212, 148, 10, 0.03)' },
         border: { display: false }
       }
     }

@@ -1,19 +1,25 @@
+import { motion } from 'framer-motion'
 import useCountUp from '../hooks/useCountUp'
 import AnimatedBackground from './AnimatedBackground'
 
-function AnimatedStat({ value, label, suffix = '' }) {
+function AnimatedStat({ value, label, suffix = '', delay = 0 }) {
   const numValue = typeof value === 'number' ? value : parseFloat(String(value).replace(/,/g, ''))
   const isDecimal = String(value).includes('.')
   const animated = useCountUp(numValue, 1400, isDecimal ? 1 : 0)
   const display = isNaN(animated) ? value : animated.toLocaleString('he-IL')
 
   return (
-    <div className="landing-stat">
+    <motion.div
+      className="landing-stat"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.5 + delay * 0.1, ease: [0.22, 1, 0.36, 1] }}
+    >
       <span className="landing-stat-value">
         {display}{suffix}
       </span>
       <span className="landing-stat-label">{label}</span>
-    </div>
+    </motion.div>
   )
 }
 
@@ -21,66 +27,64 @@ export default function LandingPage({ summary, onEnter }) {
   return (
     <div className="landing-page">
       <AnimatedBackground />
-      <div className="landing-hero">
+      <motion.div
+        className="landing-hero"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h1>דשבורד עסקים עירוני</h1>
         <p className="subtitle">
           מערכת ניטור וניתוח פעילות עסקית בעיר אשדוד.
           נתונים בזמן אמת לפי שכונות, קטגוריות והכנסות —
           לקבלת החלטות מושכלת ברמה העירונית.
         </p>
-        <button className="landing-btn" onClick={onEnter}>
-          <span>כניסה לדשבורד</span>
-          <span style={{ fontSize: '1.2rem' }}>←</span>
-        </button>
-      </div>
+        <motion.button
+          className="landing-btn"
+          onClick={onEnter}
+          whileHover={{ y: -3, boxShadow: '0 12px 40px rgba(212,148,10,0.15)' }}
+          whileTap={{ y: 0 }}
+        >
+          כניסה לדשבורד
+        </motion.button>
+      </motion.div>
 
       {summary && (
         <div className="landing-stats">
-          <AnimatedStat
-            value={summary.total_businesses}
-            label="עסקים פעילים"
-          />
-          <AnimatedStat
-            value={summary.neighborhoods_count}
-            label="שכונות במעקב"
-          />
-          <AnimatedStat
-            value={summary.total_income}
-            label="הכנסות (אלף ₪)"
-          />
-          <AnimatedStat
-            value={(summary.avg_vacancy * 100).toFixed(1)}
-            label="ריקנות ממוצעת"
-            suffix="%"
-          />
+          <AnimatedStat value={summary.total_businesses} label="עסקים פעילים" delay={0} />
+          <AnimatedStat value={summary.neighborhoods_count} label="שכונות במעקב" delay={1} />
+          <AnimatedStat value={summary.total_income} label="הכנסות (אלף ₪)" delay={2} />
+          <AnimatedStat value={(summary.avg_vacancy * 100).toFixed(1)} label="ריקנות ממוצעת" suffix="%" delay={3} />
         </div>
       )}
 
       <div className="landing-features">
-        <div className="landing-feature">
-          <span className="feature-icon">📊</span>
-          <h3>ניתוח שכונתי</h3>
-          <p>
-            השוואה בין שכונות לפי נפח עסקי, הכנסות ואחוזי ריקנות.
-            זיהוי אזורים חזקים ואזורים שדורשים התערבות.
-          </p>
-        </div>
-        <div className="landing-feature">
-          <span className="feature-icon">📈</span>
-          <h3>מגמות והתפתחות</h3>
-          <p>
-            מעקב אחר שינויים לאורך זמן.
-            גרפים שמראים את הכיוון — צמיחה, ירידה או יציבות.
-          </p>
-        </div>
-        <div className="landing-feature">
-          <span className="feature-icon">💡</span>
-          <h3>תובנות לפעולה</h3>
-          <p>
-            כל נתון מלווה בפרשנות.
-            המערכת מזהה דפוסים ומציפה הזדמנויות וסיכונים.
-          </p>
-        </div>
+        {[
+          {
+            title: 'ניתוח שכונתי',
+            desc: 'השוואה בין שכונות לפי נפח עסקי, הכנסות ואחוזי ריקנות. זיהוי אזורים חזקים ואזורים שדורשים התערבות.'
+          },
+          {
+            title: 'מגמות והתפתחות',
+            desc: 'מעקב אחר שינויים לאורך זמן. גרפים שמראים את הכיוון — צמיחה, ירידה או יציבות.'
+          },
+          {
+            title: 'תובנות לפעולה',
+            desc: 'כל נתון מלווה בפרשנות. המערכת מזהה דפוסים ומציפה הזדמנויות וסיכונים.'
+          }
+        ].map((feature, i) => (
+          <motion.div
+            key={feature.title}
+            className="landing-feature"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.6 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -6 }}
+          >
+            <h3>{feature.title}</h3>
+            <p>{feature.desc}</p>
+          </motion.div>
+        ))}
       </div>
     </div>
   )

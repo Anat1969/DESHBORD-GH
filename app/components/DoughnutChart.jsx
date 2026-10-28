@@ -21,20 +21,21 @@ function getInsight(categories) {
   return `${sorted[0].name} מהווה ${topPct}% מכלל העסקים. יחד עם ${sorted[1].name}, שני הענפים מרכזים ${topTwoPct}% מהפעילות העסקית. ${smallest.name} מייצג רק ${smallPct}% — ריכוזיות זו יוצרת פגיעות כלכלית ומומלץ לעודד גיוון ענפי`
 }
 
-const SILVER_COLORS = [
-  'rgba(130, 175, 230, 0.65)',
-  'rgba(120, 210, 180, 0.6)',
-  'rgba(175, 160, 220, 0.6)',
-  'rgba(220, 200, 140, 0.6)',
-  'rgba(220, 150, 150, 0.55)'
+/* Warm amber/copper palette for doughnut slices */
+const WARM_COLORS = [
+  'rgba(212, 148, 10, 0.65)',
+  'rgba(184, 115, 51, 0.6)',
+  'rgba(232, 184, 74, 0.55)',
+  'rgba(160, 130, 80, 0.55)',
+  'rgba(194, 114, 32, 0.5)'
 ]
 
-const SILVER_HOVER = [
-  'rgba(130, 175, 230, 0.85)',
-  'rgba(120, 210, 180, 0.8)',
-  'rgba(175, 160, 220, 0.8)',
-  'rgba(220, 200, 140, 0.8)',
-  'rgba(220, 150, 150, 0.75)'
+const WARM_HOVER = [
+  'rgba(212, 148, 10, 0.85)',
+  'rgba(184, 115, 51, 0.8)',
+  'rgba(232, 184, 74, 0.75)',
+  'rgba(160, 130, 80, 0.75)',
+  'rgba(194, 114, 32, 0.7)'
 ]
 
 export default function DoughnutChart({ categories }) {
@@ -46,14 +47,14 @@ export default function DoughnutChart({ categories }) {
     datasets: [
       {
         data: categories.map(c => c.total_count),
-        backgroundColor: SILVER_COLORS.slice(0, categories.length),
-        hoverBackgroundColor: SILVER_HOVER.slice(0, categories.length),
+        backgroundColor: WARM_COLORS.slice(0, categories.length),
+        hoverBackgroundColor: WARM_HOVER.slice(0, categories.length),
         borderWidth: 0,
         hoverOffset: 8,
         hoverBorderWidth: 2,
-        hoverBorderColor: 'rgba(255,255,255,0.2)',
-        spacing: 2,
-        borderRadius: 4
+        hoverBorderColor: 'rgba(232, 228, 220, 0.2)',
+        spacing: 3,
+        borderRadius: 0
       }
     ]
   }
@@ -73,8 +74,8 @@ export default function DoughnutChart({ categories }) {
         position: 'bottom',
         rtl: true,
         labels: {
-          font: { family: 'Rubik, sans-serif', size: 12 },
-          color: 'rgba(180, 190, 210, 0.5)',
+          font: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 12 },
+          color: 'rgba(154, 147, 134, 0.6)',
           padding: 20,
           usePointStyle: true,
           pointStyleWidth: 10
@@ -83,13 +84,13 @@ export default function DoughnutChart({ categories }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: 'rgba(16, 18, 28, 0.95)',
-        borderColor: 'rgba(100, 180, 255, 0.12)',
+        backgroundColor: 'rgba(12, 14, 21, 0.96)',
+        borderColor: 'rgba(212, 148, 10, 0.15)',
         borderWidth: 1,
-        titleFont: { family: 'Rubik, sans-serif', size: 13, weight: '500' },
-        bodyFont: { family: 'Rubik, sans-serif', size: 12 },
+        titleFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 13, weight: '500' },
+        bodyFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 12 },
         padding: 14,
-        cornerRadius: 10,
+        cornerRadius: 0,
         displayColors: true,
         callbacks: {
           label: (ctx) => {
