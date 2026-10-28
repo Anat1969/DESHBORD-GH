@@ -46,10 +46,9 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar-info">
-        <h3>מקורות נתונים</h3>
+        <h3>אודות הנתונים</h3>
         <p>
-          הנתונים מבוססים על מקורות ציבוריים:
-          הלמ"ס, רשם החברות, ופורטל data.gov.il.
+          נתוני דוגמה להדגמה בלבד.
           העלו קובץ Excel לעדכון הנתונים.
         </p>
         <p className="version">גרסה 2.0</p>

@@ -43,10 +43,10 @@ export default function Dashboard() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1>דשבורד עסקים — אשדוד</h1>
+          <ai-menu></ai-menu>
           <div className="header-right">
-            <span className="pulse-dot" />
             <span className="last-updated">
-              עדכון אחרון: {filteredData.summary.last_updated}
+              נתוני דוגמה · {filteredData.summary.last_updated}
             </span>
           </div>
         </motion.header>

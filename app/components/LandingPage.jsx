@@ -27,6 +27,10 @@ export default function LandingPage({ summary, onEnter }) {
   return (
     <div className="landing-page">
       <AnimatedBackground />
+      <header className="landing-top-bar">
+        <span className="landing-app-name">דשבורד עסקים — אשדוד</span>
+        <ai-menu></ai-menu>
+      </header>
       <motion.div
         className="landing-hero"
         initial={{ opacity: 0, y: 40 }}
@@ -35,9 +39,9 @@ export default function LandingPage({ summary, onEnter }) {
       >
         <h1>דשבורד עסקים עירוני</h1>
         <p className="subtitle">
-          מערכת ניטור וניתוח פעילות עסקית בעיר אשדוד.
-          נתונים בזמן אמת לפי שכונות, קטגוריות והכנסות —
-          לקבלת החלטות מושכלת ברמה העירונית.
+          סקירה וניתוח פעילות עסקית בעיר אשדוד.
+          נתונים לפי שכונות, קטגוריות והכנסות —
+          לקבלת תמונת מצב ברמה העירונית.
         </p>
         <motion.button
           className="landing-btn"
@@ -53,7 +57,7 @@ export default function LandingPage({ summary, onEnter }) {
         <div className="landing-stats">
           <AnimatedStat value={summary.total_businesses} label="עסקים פעילים" delay={0} />
           <AnimatedStat value={summary.neighborhoods_count} label="שכונות במעקב" delay={1} />
-          <AnimatedStat value={summary.total_income} label="הכנסות (אלף ₪)" delay={2} />
+          <AnimatedStat value={summary.total_income} label="הכנסות (מלש״ח)" delay={2} />
           <AnimatedStat value={(summary.avg_vacancy * 100).toFixed(1)} label="ריקנות ממוצעת" suffix="%" delay={3} />
         </div>
       )}
@@ -61,16 +65,16 @@ export default function LandingPage({ summary, onEnter }) {
       <div className="landing-features">
         {[
           {
-            title: 'ניתוח שכונתי',
-            desc: 'השוואה בין שכונות לפי נפח עסקי, הכנסות ואחוזי ריקנות. זיהוי אזורים חזקים ואזורים שדורשים התערבות.'
+            title: 'חזון',
+            desc: 'תמונת מצב עסקית שלמה של העיר אשדוד — במקום אחד, בשפה ברורה.'
           },
           {
-            title: 'מגמות והתפתחות',
-            desc: 'מעקב אחר שינויים לאורך זמן. גרפים שמראים את הכיוון — צמיחה, ירידה או יציבות.'
+            title: 'כלים',
+            desc: 'גרפים, מפה אינטראקטיבית וכרטיסי מדד. סינון לפי שכונה וענף פעילות.'
           },
           {
-            title: 'תובנות לפעולה',
-            desc: 'כל נתון מלווה בפרשנות. המערכת מזהה דפוסים ומציפה הזדמנויות וסיכונים.'
+            title: 'תוצאות',
+            desc: 'השוואה בין שכונות, זיהוי ריכוזיות ענפית, ומדדי ריקנות לפי אזור.'
           }
         ].map((feature, i) => (
           <motion.div

@@ -18,7 +18,7 @@ function getInsight(categories) {
   const topTwoPct = (((topTwo[0].total_count + topTwo[1].total_count) / total) * 100).toFixed(0)
   const smallest = sorted[sorted.length - 1]
   const smallPct = ((smallest.total_count / total) * 100).toFixed(0)
-  return `${sorted[0].name} מהווה ${topPct}% מכלל העסקים. יחד עם ${sorted[1].name}, שני הענפים מרכזים ${topTwoPct}% מהפעילות העסקית. ${smallest.name} מייצג רק ${smallPct}% — ריכוזיות זו יוצרת פגיעות כלכלית ומומלץ לעודד גיוון ענפי`
+  return `${sorted[0].name} מהווה ${topPct}% מכלל העסקים. יחד עם ${sorted[1].name}, שני הענפים מרכזים ${topTwoPct}% מהפעילות העסקית. ${smallest.name} מייצג רק ${smallPct}% — ריכוזיות שכדאי לשים לב אליה`
 }
 
 /* Warm amber/copper palette for doughnut slices */

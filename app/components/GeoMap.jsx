@@ -13,7 +13,7 @@ function getInsight(neighborhoods) {
     parts.push(`${lowVacancy.map(n => n.name).join(' ו')} מציגות ריקנות נמוכה, מה שמעיד על ביקוש גבוה לשטחי מסחר ופעילות עסקית ערה`)
   }
   if (highVacancy.length > 0) {
-    parts.push(`${highVacancy.map(n => n.name).join(' ו')} מציגות ריקנות מוגברת שעשויה להצביע על מגמת ירידה בביקוש או צורך בהתחדשות עירונית`)
+    parts.push(`${highVacancy.map(n => n.name).join(' ו')} מציגות ריקנות מוגברת`)
   }
   return parts.join('. ') + '.'
 }
@@ -113,7 +113,7 @@ export default function GeoMap({ neighborhoods }) {
         `<div class="map-tip">
           <strong>${n.name}</strong>
           <div>${n.businesses.toLocaleString('he-IL')} עסקים</div>
-          <div>הכנסות: ${n.income} אלף ₪</div>
+          <div>הכנסות: ${n.income} מלש״ח</div>
           <div style="${vacancyClass}">ריקנות: ${(n.vacancy * 100).toFixed(1)}%</div>
         </div>`,
         {

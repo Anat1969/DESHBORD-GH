@@ -1,35 +1,41 @@
 import { motion } from 'framer-motion'
 import useCountUp from '../hooks/useCountUp'
+import { ProseText } from '../utils/prose.jsx'
 
 function getInsight(summary) {
   const vacancy = summary.avg_vacancy
   const businesses = summary.total_businesses
 
   let vacancyInsight
-  if (vacancy <= 0.12) vacancyInsight = 'ריקנות נמוכה — ביקוש גבוה לשטחי מסחר, סימן לכלכלה עירונית חזקה'
-  else if (vacancy <= 0.16) vacancyInsight = 'ריקנות בטווח בריא — שוק מאוזן בין היצע וביקוש. אין צורך בהתערבות מיידית'
-  else if (vacancy <= 0.20) vacancyInsight = 'ריקנות מעל הממוצע — ייתכנו שכונות עם ירידה בביקוש. מומלץ לבחון את הפיזור'
-  else vacancyInsight = 'ריקנות גבוהה — סימן לירידה בביקוש, ייתכן צורך בתמריצים כלכליים או התחדשות עירונית'
+  if (vacancy <= 0.12) vacancyInsight = 'ריקנות נמוכה — ביקוש גבוה לשטחי מסחר'
+  else if (vacancy <= 0.16) vacancyInsight = 'ריקנות בטווח סביר — שוק מאוזן בין היצע לביקוש'
+  else if (vacancy <= 0.20) vacancyInsight = 'ריקנות מעל הממוצע — ייתכנו שכונות עם ירידה בביקוש'
+  else vacancyInsight = 'ריקנות גבוהה — ירידה בביקוש באזורים מסוימים'
 
   return {
     businesses: businesses > 5000
-      ? `ריכוז עסקי משמעותי עם פעילות ב-${summary.neighborhoods_count} שכונות. העיר מציגה בסיס עסקי רחב ומגוון`
-      : 'מספר עסקים נמוך יחסית — ייתכנו שכונות שלא מיוצגות בנתונים',
+      ? `ריכוז של ${businesses.toLocaleString('he-IL')} עסקים ב-${summary.neighborhoods_count} שכונות`
+      : `${businesses.toLocaleString('he-IL')} עסקים — ייתכנו שכונות שלא מיוצגות בנתונים`,
     neighborhoods: summary.neighborhoods_count >= 6
-      ? 'כיסוי גיאוגרפי רחב — הנתונים משקפים את מרבית אזורי העיר ומאפשרים השוואה מהימנה'
-      : 'כיסוי חלקי — חלק מהשכונות אינן מיוצגות. התובנות עלולות לא לשקף את התמונה המלאה',
-    income: `ממוצע ${Math.round(summary.total_income / summary.neighborhoods_count)} אלף ₪ לשכונה. פערי הכנסות בין שכונות יכולים להעיד על אי-שוויון כלכלי`,
+      ? `${summary.neighborhoods_count} שכונות — כיסוי גיאוגרפי רחב`
+      : `${summary.neighborhoods_count} שכונות — כיסוי חלקי`,
+    income: `ממוצע ${Math.round(summary.total_income / summary.neighborhoods_count)} מלש״ח לשכונה`,
     vacancy: vacancyInsight
   }
 }
 
-/* Warm amber color palette for KPI cards */
+/* Colors from CSS custom properties --ashdod-card-* */
+const root = typeof getComputedStyle !== 'undefined' && document.documentElement
+  ? getComputedStyle(document.documentElement)
+  : null
+const cssVar = (name, fallback) => root ? (root.getPropertyValue(name).trim() || fallback) : fallback
+
 const CARD_COLORS = {
-  businesses: 'rgba(212, 180, 120, 0.75)',
-  neighborhoods: 'rgba(184, 160, 110, 0.7)',
-  income: '#7ec88a',
-  vacancy_ok: '#7ec88a',
-  vacancy_warn: '#d47070'
+  businesses: cssVar('--ashdod-card-businesses', 'rgba(212, 180, 120, 0.75)'),
+  neighborhoods: cssVar('--ashdod-card-neighborhoods', 'rgba(184, 160, 110, 0.7)'),
+  income: cssVar('--ashdod-card-income', '#7ec88a'),
+  vacancy_ok: cssVar('--ashdod-card-vacancy-ok', '#7ec88a'),
+  vacancy_warn: cssVar('--ashdod-card-vacancy-warn', '#d47070')
 }
 
 function AnimatedValue({ value, color, unit, decimals = 0 }) {
@@ -69,7 +75,7 @@ export default function KPICards({ summary }) {
     {
       label: 'הכנסות כולל',
       value: summary.total_income,
-      unit: 'אלף ₪',
+      unit: 'מלש״ח',
       color: CARD_COLORS.income,
       insight: insights.income,
       progress: Math.min(summary.total_income / 600, 1)
@@ -120,7 +126,7 @@ export default function KPICards({ summary }) {
               }}
             />
           </div>
-          <span className="kpi-insight">{card.insight}</span>
+          <ProseText text={card.insight} className="kpi-insight" />
         </motion.div>
       ))}
     </div>

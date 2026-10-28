@@ -21,7 +21,7 @@ function getInsight(neighborhoods) {
   const bottom = sorted[sorted.length - 1]
   const gap = top.businesses - bottom.businesses
   const ratio = (top.businesses / bottom.businesses).toFixed(1)
-  return `${top.name} מובילה עם ${top.businesses.toLocaleString('he-IL')} עסקים — פי ${ratio} מ${bottom.name} (${bottom.businesses.toLocaleString('he-IL')}). פער של ${gap.toLocaleString('he-IL')} עסקים מצביע על ריכוזיות עסקית גבוהה שעלולה ליצור תלות כלכלית באזורים מסוימים`
+  return `${top.name} מובילה עם ${top.businesses.toLocaleString('he-IL')} עסקים — פי ${ratio} מ${bottom.name} (${bottom.businesses.toLocaleString('he-IL')}). פער של ${gap.toLocaleString('he-IL')} עסקים בין השכונות`
 }
 
 export default function LineChart({ neighborhoods }) {
