@@ -1,62 +1,55 @@
 /* ═══════════════════════════════════════════════════════
    ASHDOD BUSINESS DASHBOARD — DESIGN TOKENS
-   DNA: חדר פיקוד עירוני, אור ענבר חם, עומק דרמטי
+   DNA: כלי תכנון עירוני — מקצועי, בהיר-כהה, צבעי ים תיכון
    ═══════════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
-  /* ── Ashdod Amber Palette ── */
-  --ashdod-black: #07080c;
-  --ashdod-deep: #0c0e15;
-  --ashdod-surface: rgba(14, 16, 24, 0.92);
-  --ashdod-surface-hover: rgba(22, 25, 38, 0.95);
-  --ashdod-glass: rgba(14, 16, 24, 0.55);
-  --ashdod-amber: #d4940a;
-  --ashdod-amber-soft: rgba(212, 148, 10, 0.6);
-  --ashdod-amber-glow: rgba(212, 148, 10, 0.12);
-  --ashdod-amber-dim: rgba(212, 148, 10, 0.04);
-  --ashdod-orange: #c27220;
-  --ashdod-gold: #e8b84a;
-  --ashdod-copper: #b87333;
+  /* ── Ashdod Coastal Palette ── */
+  --ashdod-base: #0f1523;
+  --ashdod-deep: #141b2d;
+  --ashdod-surface: rgba(20, 27, 45, 0.92);
+  --ashdod-surface-hover: rgba(28, 38, 62, 0.95);
+  --ashdod-glass: rgba(20, 27, 45, 0.55);
+  --ashdod-blue: #3b82f6;
+  --ashdod-blue-soft: rgba(59, 130, 246, 0.5);
+  --ashdod-blue-glow: rgba(59, 130, 246, 0.08);
+  --ashdod-teal: #0ea5e9;
+  --ashdod-sand: #d4a050;
+  --ashdod-copper: #c0825a;
 
   /* ── Semantic ── */
-  --color-text: #e8e4dc;
-  --color-text-secondary: #9a9386;
-  --color-text-muted: #6b6560;
-  --color-border: rgba(212, 148, 10, 0.08);
-  --color-border-warm: rgba(212, 148, 10, 0.15);
-  --color-growth: #7ec88a;
-  --color-risk: #d47070;
-  --color-neutral: rgba(212, 180, 120, 0.75);
-  --color-warn: rgba(230, 190, 80, 0.8);
-  --color-info: rgba(180, 160, 120, 0.7);
+  --color-text: #e2e8f0;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-border: rgba(100, 116, 139, 0.12);
+  --color-border-hover: rgba(59, 130, 246, 0.2);
+  --color-growth: #10b981;
+  --color-risk: #ef4444;
+  --color-warn: #f59e0b;
+  --color-info: #3b82f6;
 
   /* ── Layout ── */
   --sidebar-width: 280px;
 
   /* ── Shadows & Depth ── */
   --shadow-card:
-    0 2px 8px rgba(0,0,0,0.4),
-    0 8px 32px rgba(0,0,0,0.3),
-    0 0 60px rgba(212, 148, 10, 0.03);
-  --shadow-glow:
-    0 0 40px rgba(212, 148, 10, 0.06),
-    0 0 80px rgba(212, 148, 10, 0.03);
+    0 1px 3px rgba(0,0,0,0.3),
+    0 4px 16px rgba(0,0,0,0.2);
   --shadow-lift:
-    0 4px 12px rgba(0,0,0,0.5),
-    0 12px 40px rgba(0,0,0,0.35),
-    0 0 60px rgba(212, 148, 10, 0.05);
+    0 4px 12px rgba(0,0,0,0.35),
+    0 12px 40px rgba(0,0,0,0.25);
   --shadow-deep:
-    inset 0 1px 0 rgba(255,255,255,0.03),
-    0 1px 3px rgba(0,0,0,0.5);
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 1px 3px rgba(0,0,0,0.4);
 
-  /* ── KPI Card Colors ── */
-  --ashdod-card-businesses: rgba(212, 180, 120, 0.75);
-  --ashdod-card-neighborhoods: rgba(184, 160, 110, 0.7);
-  --ashdod-card-income: #7ec88a;
-  --ashdod-card-vacancy-ok: #7ec88a;
-  --ashdod-card-vacancy-warn: #d47070;
+  /* ── KPI Card Colors — distinct per metric ── */
+  --ashdod-card-businesses: #3b82f6;
+  --ashdod-card-neighborhoods: #8b5cf6;
+  --ashdod-card-income: #10b981;
+  --ashdod-card-vacancy-ok: #10b981;
+  --ashdod-card-vacancy-warn: #ef4444;
 
   /* ── Motion ── */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -76,7 +69,7 @@
 
 body {
   font-family: var(--font-body);
-  background: var(--ashdod-black);
+  background: var(--ashdod-base);
   color: var(--color-text);
   direction: rtl;
   min-height: 100vh;
@@ -96,15 +89,15 @@ body {
   font-size: 0.88rem;
   font-weight: 500;
   color: var(--color-text);
-  background: rgba(212, 148, 10, 0.05);
+  background: rgba(59, 130, 246, 0.05);
   cursor: pointer;
   transition: all 0.3s var(--ease-out);
   box-shadow: var(--shadow-deep);
   position: relative;
 }
 .btn-square:hover {
-  background: rgba(212, 148, 10, 0.12);
-  border-color: rgba(212, 148, 10, 0.3);
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lift);
 }
@@ -114,9 +107,9 @@ body {
 }
 .btn-square[aria-selected="true"],
 .btn-square.selected {
-  background: rgba(212, 148, 10, 0.15);
-  border-color: var(--ashdod-amber);
-  color: var(--ashdod-gold);
+  background: rgba(59, 130, 246, 0.12);
+  border-color: var(--ashdod-blue);
+  color: var(--ashdod-blue);
 }
 .btn-square:disabled,
 .btn-square[aria-disabled="true"] {
@@ -147,75 +140,21 @@ body {
   text-decoration: none;
 }
 
-/* ═══ Animated Ambient Background ═══ */
+/* ═══ Ambient Background — subtle gradient, no particles ═══ */
 .animated-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
 }
 
-/* Warm ambient orbs — like LED strip light reflections */
-.animated-bg::before {
-  content: '';
-  position: absolute;
-  width: 800px;
-  height: 800px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 148, 10, 0.06) 0%, rgba(194, 114, 32, 0.02) 40%, transparent 70%);
-  top: -300px;
-  right: -200px;
-  animation: ambient-drift 25s ease-in-out infinite;
-}
-
-.animated-bg::after {
-  content: '';
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(184, 115, 51, 0.05) 0%, rgba(212, 148, 10, 0.015) 40%, transparent 70%);
-  bottom: -200px;
-  left: -200px;
-  animation: ambient-drift 30s ease-in-out infinite reverse;
-}
-
-@keyframes ambient-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
-  33% { transform: translate(60px, -40px) scale(1.15); opacity: 0.8; }
-  66% { transform: translate(-30px, 50px) scale(0.9); opacity: 1; }
-}
-
-/* Warm floating particles */
-.landing-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(212, 148, 10, 0.4);
-  animation: particle-rise linear infinite;
-  box-shadow: 0 0 6px rgba(212, 148, 10, 0.3);
-}
-
-@keyframes particle-rise {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  10% { opacity: 0.6; }
-  50% { opacity: 0.3; }
-  90% { opacity: 0.1; }
-  100% {
-    transform: translateY(-100vh) translateX(20px);
-    opacity: 0;
-  }
-}
+/* Hide particles — no longer needed */
+.landing-particles,
+.particle { display: none; }
 
 /* ═══ Loading ═══ */
 .loading {
@@ -233,7 +172,7 @@ body {
   width: 24px;
   height: 24px;
   border: 2px solid var(--color-border);
-  border-top-color: var(--ashdod-amber);
+  border-top-color: var(--ashdod-blue);
   border-radius: 50%;
   margin-right: 12px;
   animation: spin 0.8s linear infinite;
@@ -262,11 +201,6 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
 /* ═══════════════════════════════════════════════════════
    LANDING PAGE — שער הכניסה
    ═══════════════════════════════════════════════════════ */
@@ -274,12 +208,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--ashdod-black);
+  background: var(--ashdod-base);
   position: relative;
   overflow: hidden;
 }
 
-/* Dramatic top amber glow line */
+/* Subtle top accent line */
 .landing-page::before {
   content: '';
   position: absolute;
@@ -287,7 +221,7 @@ body {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ashdod-amber-soft), transparent);
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
   z-index: 2;
 }
 
@@ -310,11 +244,6 @@ body {
   margin-bottom: 24px;
   letter-spacing: -0.03em;
   line-height: 1.15;
-  background: linear-gradient(135deg, #f0e8d8, var(--ashdod-gold), var(--ashdod-amber));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: none;
 }
 
 .landing-hero .subtitle {
@@ -341,10 +270,10 @@ body {
   align-items: center;
   gap: 10px;
   padding: 16px 52px;
-  background: rgba(212, 148, 10, 0.08);
-  color: var(--ashdod-gold);
-  border: 1px solid rgba(212, 148, 10, 0.25);
-  border-radius: 0; /* SQUARE — no rounded corners */
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--ashdod-blue);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 0;
   font-family: var(--font-body);
   font-size: 1.05rem;
   font-weight: 500;
@@ -361,16 +290,16 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(212, 148, 10, 0.12), transparent 60%);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), transparent 60%);
   opacity: 0;
   transition: opacity 0.35s;
 }
 
 .landing-btn:hover {
-  background: rgba(212, 148, 10, 0.15);
-  border-color: rgba(212, 148, 10, 0.45);
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.5);
   transform: translateY(-3px);
-  box-shadow: var(--shadow-lift), 0 0 30px rgba(212, 148, 10, 0.1);
+  box-shadow: var(--shadow-lift);
 }
 
 .landing-btn:hover::before { opacity: 1; }
@@ -410,7 +339,7 @@ body {
   left: 20%;
   right: 20%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--ashdod-amber), transparent);
+  background: linear-gradient(90deg, transparent, var(--ashdod-blue-soft), transparent);
   opacity: 0;
   transition: opacity 0.35s, left 0.35s, right 0.35s;
 }
@@ -425,11 +354,16 @@ body {
   right: 5%;
 }
 
+/* Each stat gets its own accent color */
+.landing-stat:nth-child(1) .landing-stat-value { color: var(--ashdod-card-businesses); }
+.landing-stat:nth-child(2) .landing-stat-value { color: var(--ashdod-card-neighborhoods); }
+.landing-stat:nth-child(3) .landing-stat-value { color: var(--ashdod-card-income); }
+.landing-stat:nth-child(4) .landing-stat-value { color: var(--color-warn); }
+
 .landing-stat-value {
   display: block;
   font-size: 2.2rem;
   font-weight: 600;
-  color: var(--ashdod-gold);
   margin-bottom: 8px;
   font-variant-numeric: tabular-nums;
   font-family: var(--font-body);
@@ -465,41 +399,23 @@ body {
   box-shadow: var(--shadow-deep);
 }
 
-/* Top warm accent line on hover */
 .landing-feature::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--ashdod-amber), transparent);
+  background: linear-gradient(90deg, transparent, var(--ashdod-blue-soft), transparent);
   opacity: 0;
   transition: opacity 0.4s;
 }
 
-/* Inner warm glow */
-.landing-feature::after {
-  content: '';
-  position: absolute;
-  top: -40%;
-  left: -40%;
-  width: 180%;
-  height: 180%;
-  background: radial-gradient(circle at 30% 30%, rgba(212, 148, 10, 0.04), transparent 60%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
 .landing-feature:hover {
   transform: translateY(-6px);
-  border-color: var(--color-border-warm);
+  border-color: var(--color-border-hover);
   box-shadow: var(--shadow-lift);
 }
 
 .landing-feature:hover::before { opacity: 0.7; }
-.landing-feature:hover::after { opacity: 1; }
 
 .landing-feature:nth-child(1) { animation: fade-up 0.7s var(--ease-out) 0.6s both; }
 .landing-feature:nth-child(2) { animation: fade-up 0.7s var(--ease-out) 0.75s both; }
@@ -509,7 +425,7 @@ body {
   font-size: 1.05rem;
   font-weight: 500;
   margin-bottom: 14px;
-  color: var(--ashdod-gold);
+  color: var(--color-text);
   position: relative;
 }
 
@@ -554,18 +470,17 @@ body {
   transition: all 0.4s var(--ease-out);
 }
 
-.landing-step::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--ashdod-amber), transparent);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
+/* Each step gets a unique left accent color */
+.landing-step:nth-child(1) { border-right: 3px solid var(--ashdod-card-businesses); }
+.landing-step:nth-child(2) { border-right: 3px solid var(--ashdod-card-neighborhoods); }
+.landing-step:nth-child(3) { border-right: 3px solid var(--ashdod-card-income); }
+.landing-step:nth-child(4) { border-right: 3px solid var(--ashdod-teal); }
 
-.landing-step:hover { border-color: var(--color-border-warm); box-shadow: var(--shadow-lift); }
-.landing-step:hover::before { opacity: 0.6; }
+.landing-step:hover { border-color: var(--color-border-hover); box-shadow: var(--shadow-lift); }
+.landing-step:nth-child(1):hover { border-right-color: var(--ashdod-card-businesses); }
+.landing-step:nth-child(2):hover { border-right-color: var(--ashdod-card-neighborhoods); }
+.landing-step:nth-child(3):hover { border-right-color: var(--ashdod-card-income); }
+.landing-step:nth-child(4):hover { border-right-color: var(--ashdod-teal); }
 
 .step-num {
   display: inline-flex;
@@ -573,19 +488,24 @@ body {
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(212, 148, 10, 0.25);
-  color: var(--ashdod-gold);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   font-size: 0.82rem;
   font-weight: 500;
   font-family: var(--font-mono);
   margin-bottom: 14px;
 }
 
+.landing-step:nth-child(1) .step-num { border-color: var(--ashdod-card-businesses); color: var(--ashdod-card-businesses); }
+.landing-step:nth-child(2) .step-num { border-color: var(--ashdod-card-neighborhoods); color: var(--ashdod-card-neighborhoods); }
+.landing-step:nth-child(3) .step-num { border-color: var(--ashdod-card-income); color: var(--ashdod-card-income); }
+.landing-step:nth-child(4) .step-num { border-color: var(--ashdod-teal); color: var(--ashdod-teal); }
+
 .landing-step h3 {
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 10px;
-  color: var(--ashdod-gold);
+  color: var(--color-text);
 }
 
 .landing-step p {
@@ -648,10 +568,16 @@ body {
 }
 
 .section-nav-btn.active {
-  color: var(--ashdod-gold);
-  border-bottom-color: var(--ashdod-amber);
+  color: var(--ashdod-blue);
+  border-bottom-color: var(--ashdod-blue);
   font-weight: 500;
 }
+
+/* Each nav button gets its own accent when active */
+.section-nav-btn:nth-child(1).active { color: var(--ashdod-card-businesses); border-bottom-color: var(--ashdod-card-businesses); }
+.section-nav-btn:nth-child(2).active { color: var(--ashdod-card-neighborhoods); border-bottom-color: var(--ashdod-card-neighborhoods); }
+.section-nav-btn:nth-child(3).active { color: var(--ashdod-card-income); border-bottom-color: var(--ashdod-card-income); }
+.section-nav-btn:nth-child(4).active { color: var(--ashdod-teal); border-bottom-color: var(--ashdod-teal); }
 
 .section-nav-num {
   display: inline-flex;
@@ -665,10 +591,10 @@ body {
   transition: all 0.3s;
 }
 
-.section-nav-btn.active .section-nav-num {
-  border-color: var(--ashdod-amber);
-  color: var(--ashdod-gold);
-}
+.section-nav-btn:nth-child(1).active .section-nav-num { border-color: var(--ashdod-card-businesses); color: var(--ashdod-card-businesses); }
+.section-nav-btn:nth-child(2).active .section-nav-num { border-color: var(--ashdod-card-neighborhoods); color: var(--ashdod-card-neighborhoods); }
+.section-nav-btn:nth-child(3).active .section-nav-num { border-color: var(--ashdod-card-income); color: var(--ashdod-card-income); }
+.section-nav-btn:nth-child(4).active .section-nav-num { border-color: var(--ashdod-teal); color: var(--ashdod-teal); }
 
 /* ═══════════════════════════════════════════════════════
    DASHBOARD SECTIONS — מקטעים מודרכים
@@ -699,8 +625,8 @@ body {
 .planning-note {
   margin-top: 20px;
   padding: 18px 24px;
-  background: rgba(212, 148, 10, 0.04);
-  border-right: 3px solid rgba(212, 148, 10, 0.3);
+  background: rgba(59, 130, 246, 0.04);
+  border-right: 3px solid rgba(59, 130, 246, 0.3);
   font-size: 0.9rem;
   color: var(--color-text-secondary);
   line-height: 1.75;
@@ -711,7 +637,7 @@ body {
   font-size: 0.72rem;
   font-family: var(--font-mono);
   font-weight: 500;
-  color: var(--ashdod-amber);
+  color: var(--ashdod-blue);
   letter-spacing: 0.04em;
   margin-bottom: 6px;
   text-transform: uppercase;
@@ -750,10 +676,6 @@ body {
   font-weight: 300;
   color: var(--color-text);
   letter-spacing: -0.01em;
-  background: linear-gradient(135deg, var(--color-text), var(--ashdod-gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .header-right {
@@ -772,14 +694,7 @@ body {
   gap: 8px;
 }
 
-.pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ashdod-amber);
-  box-shadow: 0 0 8px rgba(212, 148, 10, 0.5);
-  animation: glow-pulse 2.5s ease-in-out infinite;
-}
+.pulse-dot { display: none; }
 
 /* ═══════════════════════════════════════════════════════
    KPI CARDS — כרטיסי מדד
@@ -801,48 +716,24 @@ body {
   transition: all 0.4s var(--ease-out);
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(16px);
   box-shadow: var(--shadow-card);
 }
 
-/* Warm top accent bar */
-.kpi-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  opacity: 0.5;
-  transition: opacity 0.35s, height 0.35s;
-}
-
-/* Inner ambient glow */
-.kpi-card::after {
-  content: '';
-  position: absolute;
-  top: -60%;
-  right: -30%;
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(circle, rgba(212, 148, 10, 0.025), transparent 60%);
-  pointer-events: none;
-  transition: opacity 0.5s;
-  opacity: 0;
-}
+/* Colored right accent per card */
+.kpi-card:nth-child(1) { border-right: 3px solid var(--ashdod-card-businesses); }
+.kpi-card:nth-child(2) { border-right: 3px solid var(--ashdod-card-neighborhoods); }
+.kpi-card:nth-child(3) { border-right: 3px solid var(--ashdod-card-income); }
+.kpi-card:nth-child(4) { border-right: 3px solid var(--color-warn); }
 
 .kpi-card:hover {
   transform: translateY(-4px);
-  border-color: var(--color-border-warm);
+  border-color: var(--color-border-hover);
   box-shadow: var(--shadow-lift);
 }
-
-.kpi-card:hover::before {
-  opacity: 1;
-  height: 4px;
-}
-
-.kpi-card:hover::after { opacity: 1; }
+.kpi-card:nth-child(1):hover { border-right-color: var(--ashdod-card-businesses); }
+.kpi-card:nth-child(2):hover { border-right-color: var(--ashdod-card-neighborhoods); }
+.kpi-card:nth-child(3):hover { border-right-color: var(--ashdod-card-income); }
+.kpi-card:nth-child(4):hover { border-right-color: var(--color-warn); }
 
 .kpi-card:nth-child(1) { animation: fade-up 0.5s var(--ease-out) 0.1s both; }
 .kpi-card:nth-child(2) { animation: fade-up 0.5s var(--ease-out) 0.2s both; }
@@ -864,7 +755,7 @@ body {
   text-transform: uppercase;
 }
 
-/* No icons per skill — hide kpi-icon */
+/* No icons per skill */
 .kpi-icon { display: none; }
 
 .kpi-value {
@@ -890,11 +781,11 @@ body {
   margin-top: 4px;
 }
 
-/* Progress bar with amber glow */
+/* Progress bar */
 .kpi-progress {
   width: 100%;
   height: 3px;
-  background: rgba(212, 148, 10, 0.06);
+  background: rgba(100, 116, 139, 0.1);
   overflow: hidden;
   margin-top: 4px;
 }
@@ -912,7 +803,7 @@ body {
   right: 0;
   bottom: 0;
   width: 30px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25));
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -927,9 +818,9 @@ body {
 .btn-upload {
   width: 100%;
   padding: 12px 16px;
-  background: rgba(212, 148, 10, 0.05);
-  color: var(--ashdod-amber);
-  border: 1px dashed rgba(212, 148, 10, 0.2);
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--ashdod-blue);
+  border: 1px dashed rgba(59, 130, 246, 0.2);
   border-radius: 0;
   font-family: var(--font-body);
   font-size: 0.85rem;
@@ -940,8 +831,8 @@ body {
 }
 
 .btn-upload:hover {
-  background: rgba(212, 148, 10, 0.1);
-  border-color: rgba(212, 148, 10, 0.4);
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.4);
   border-style: solid;
   transform: translateY(-2px);
   box-shadow: var(--shadow-lift);
@@ -985,31 +876,14 @@ body {
   border: 1px solid var(--color-border);
   padding: 32px;
   transition: all 0.4s var(--ease-out);
-  backdrop-filter: blur(16px);
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
 
-/* Warm radial glow on hover */
-.chart-container::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at center, rgba(212, 148, 10, 0.02), transparent 60%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.chart-container:hover::before { opacity: 1; }
-
 .chart-container:hover {
-  border-color: var(--color-border-warm);
-  box-shadow: var(--shadow-glow);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-lift);
 }
 
 .chart-line { animation: fade-up 0.6s var(--ease-out) 0.4s both; }
@@ -1054,7 +928,7 @@ body {
   display: block;
   font-size: 1.7rem;
   font-weight: 600;
-  color: var(--ashdod-gold);
+  color: var(--ashdod-blue);
   font-variant-numeric: tabular-nums;
   font-family: var(--font-body);
 }
@@ -1073,15 +947,14 @@ body {
   background: var(--ashdod-surface);
   border: 1px solid var(--color-border);
   padding: 32px;
-  backdrop-filter: blur(16px);
   animation: fade-up 0.6s var(--ease-out) 0.6s both;
   transition: all 0.4s var(--ease-out);
   box-shadow: var(--shadow-card);
 }
 
 .map-section:hover {
-  border-color: var(--color-border-warm);
-  box-shadow: var(--shadow-glow);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-lift);
 }
 
 .map-section h2 {
@@ -1111,15 +984,15 @@ body {
   overflow: hidden;
 }
 
-/* Warm dark filter for map tiles */
+/* Dark filter for map tiles */
 .dark-tiles {
-  filter: brightness(0.3) contrast(1.15) saturate(0.2) sepia(0.3) hue-rotate(10deg);
+  filter: brightness(0.35) contrast(1.2) saturate(0.15) hue-rotate(200deg);
 }
 
 /* Leaflet controls */
 .geo-map-leaflet .leaflet-control-zoom a {
   background: var(--ashdod-surface) !important;
-  color: var(--ashdod-gold) !important;
+  color: var(--ashdod-blue) !important;
   border-color: var(--color-border) !important;
   border-radius: 0 !important;
   width: 32px !important;
@@ -1131,13 +1004,12 @@ body {
 
 .geo-map-leaflet .leaflet-control-zoom a:hover {
   background: var(--ashdod-surface-hover) !important;
-  box-shadow: 0 0 12px rgba(212, 148, 10, 0.1) !important;
 }
 
-/* Map marker pulse — warm amber */
+/* Map marker pulse */
 @keyframes marker-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 148, 10, 0.35); }
-  50% { box-shadow: 0 0 0 14px rgba(212, 148, 10, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 0 14px rgba(59, 130, 246, 0); }
 }
 
 /* Labels */
@@ -1153,7 +1025,7 @@ body {
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
-  color: #e8e4dc;
+  color: #e2e8f0;
   text-shadow: 0 1px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.7);
 }
 
@@ -1162,27 +1034,26 @@ body {
   font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: 400;
-  color: rgba(212, 180, 120, 0.8);
+  color: rgba(148, 163, 184, 0.8);
   text-shadow: 0 1px 6px rgba(0,0,0,0.9);
 }
 
-/* Dark tooltip — warm */
+/* Dark tooltip */
 .leaflet-dark-tooltip {
-  background: rgba(12, 14, 21, 0.96) !important;
-  border: 1px solid rgba(212, 148, 10, 0.15) !important;
+  background: rgba(15, 21, 35, 0.96) !important;
+  border: 1px solid rgba(59, 130, 246, 0.15) !important;
   border-radius: 0 !important;
-  color: #e8e4dc !important;
+  color: #e2e8f0 !important;
   font-family: var(--font-body) !important;
   font-size: 0.82rem !important;
   padding: 14px 18px !important;
   line-height: 1.75 !important;
   direction: rtl !important;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 30px rgba(212, 148, 10, 0.06) !important;
-  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6) !important;
 }
 
 .leaflet-dark-tooltip::before {
-  border-top-color: rgba(12, 14, 21, 0.96) !important;
+  border-top-color: rgba(15, 21, 35, 0.96) !important;
 }
 
 .map-tip strong {
@@ -1190,7 +1061,7 @@ body {
   margin-bottom: 6px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--ashdod-gold);
+  color: var(--ashdod-blue);
 }
 
 .map-tip div {
@@ -1199,10 +1070,9 @@ body {
 
 /* Attribution */
 .geo-map-leaflet .leaflet-control-attribution {
-  background: rgba(7, 8, 12, 0.8) !important;
+  background: rgba(15, 21, 35, 0.8) !important;
   color: var(--color-text-muted) !important;
   font-size: 0.6rem !important;
-  backdrop-filter: blur(8px) !important;
 }
 
 .geo-map-leaflet .leaflet-control-attribution a {
@@ -1265,18 +1135,6 @@ body {
   animation: slide-right 0.5s var(--ease-out) both;
 }
 
-/* Ambient side glow */
-.sidebar::after {
-  content: '';
-  position: absolute;
-  top: 20%;
-  left: -1px;
-  width: 1px;
-  height: 40%;
-  background: linear-gradient(to bottom, transparent, rgba(212, 148, 10, 0.2), transparent);
-  pointer-events: none;
-}
-
 .sidebar-header {
   display: flex;
   justify-content: space-between;
@@ -1305,9 +1163,9 @@ body {
 }
 
 .btn-reset:hover {
-  background: rgba(212, 148, 10, 0.06);
-  color: var(--ashdod-amber);
-  border-color: rgba(212, 148, 10, 0.2);
+  background: rgba(59, 130, 246, 0.06);
+  color: var(--ashdod-blue);
+  border-color: rgba(59, 130, 246, 0.2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lift);
 }
@@ -1337,24 +1195,23 @@ body {
   font-family: var(--font-body);
   font-size: 0.88rem;
   color: var(--color-text);
-  background: rgba(7, 8, 12, 0.7);
+  background: rgba(15, 21, 35, 0.7);
   appearance: none;
   cursor: pointer;
   transition: all 0.3s var(--ease-out);
-  backdrop-filter: blur(8px);
   box-shadow: var(--shadow-deep);
 }
 
 .filter-group select:hover {
-  border-color: rgba(212, 148, 10, 0.2);
+  border-color: rgba(59, 130, 246, 0.2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lift);
 }
 
 .filter-group select:focus {
   outline: none;
-  border-color: rgba(212, 148, 10, 0.4);
-  box-shadow: 0 0 0 3px rgba(212, 148, 10, 0.08);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
   transform: translateY(0);
 }
 
@@ -1410,7 +1267,6 @@ body {
     border-bottom: 1px solid var(--color-border);
     backdrop-filter: blur(16px);
   }
-  .sidebar::after { display: none; }
   .dashboard-main { padding: 24px 18px; }
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .landing-hero h1 { font-size: 2.2rem; }
@@ -1453,12 +1309,12 @@ body {
   }
 }
 
-/* ═══ Scrollbar — warm themed ═══ */
+/* ═══ Scrollbar ═══ */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(212, 148, 10, 0.12);
+  background: rgba(100, 116, 139, 0.2);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 148, 10, 0.22);
+  background: rgba(100, 116, 139, 0.35);
 }

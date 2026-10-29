@@ -44,13 +44,13 @@ export default function LineChart({ neighborhoods }) {
       {
         label: 'מספר עסקים',
         data: sorted.map(n => n.businesses),
-        borderColor: 'rgba(212, 148, 10, 0.3)',
+        borderColor: 'rgba(59, 130, 246, 0.3)',
         backgroundColor: (ctx) => {
-          if (!ctx.chart.chartArea) return 'rgba(212, 148, 10, 0.04)'
+          if (!ctx.chart.chartArea) return 'rgba(59, 130, 246, 0.04)'
           const gradient = ctx.chart.ctx.createLinearGradient(0, ctx.chart.chartArea.top, 0, ctx.chart.chartArea.bottom)
-          gradient.addColorStop(0, 'rgba(212, 148, 10, 0.15)')
-          gradient.addColorStop(0.6, 'rgba(212, 148, 10, 0.04)')
-          gradient.addColorStop(1, 'rgba(212, 148, 10, 0)')
+          gradient.addColorStop(0, 'rgba(59, 130, 246, 0.12)')
+          gradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.03)')
+          gradient.addColorStop(1, 'rgba(59, 130, 246, 0)')
           return gradient
         },
         fill: true,
@@ -83,8 +83,8 @@ export default function LineChart({ neighborhoods }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: 'rgba(12, 14, 21, 0.96)',
-        borderColor: 'rgba(212, 148, 10, 0.15)',
+        backgroundColor: 'rgba(15, 21, 35, 0.96)',
+        borderColor: 'rgba(59, 130, 246, 0.15)',
         borderWidth: 1,
         titleFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 13, weight: '500' },
         bodyFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 12 },
@@ -104,7 +104,7 @@ export default function LineChart({ neighborhoods }) {
           color: 'rgba(154, 147, 134, 0.5)'
         },
         grid: { display: false },
-        border: { color: 'rgba(212, 148, 10, 0.06)' }
+        border: { color: 'rgba(100, 116, 139, 0.08)' }
       },
       y: {
         beginAtZero: true,
@@ -113,7 +113,7 @@ export default function LineChart({ neighborhoods }) {
           color: 'rgba(154, 147, 134, 0.35)',
           callback: (v) => v.toLocaleString('he-IL')
         },
-        grid: { color: 'rgba(212, 148, 10, 0.03)' },
+        grid: { color: 'rgba(100, 116, 139, 0.06)' },
         border: { display: false }
       }
     }

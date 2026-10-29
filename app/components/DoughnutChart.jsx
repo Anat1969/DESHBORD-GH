@@ -21,21 +21,21 @@ function getInsight(categories) {
   return `${sorted[0].name} מהווה ${topPct}% מכלל העסקים. יחד עם ${sorted[1].name}, שני הענפים מרכזים ${topTwoPct}% מהפעילות העסקית. ${smallest.name} מייצג רק ${smallPct}% — ריכוזיות שכדאי לשים לב אליה`
 }
 
-/* Warm amber/copper palette for doughnut slices */
-const WARM_COLORS = [
-  'rgba(212, 148, 10, 0.65)',
-  'rgba(184, 115, 51, 0.6)',
-  'rgba(232, 184, 74, 0.55)',
-  'rgba(160, 130, 80, 0.55)',
-  'rgba(194, 114, 32, 0.5)'
+/* Distinct category colors — each industry gets its own identity */
+const CATEGORY_COLORS = [
+  'rgba(59, 130, 246, 0.7)',
+  'rgba(16, 185, 129, 0.65)',
+  'rgba(245, 158, 11, 0.65)',
+  'rgba(168, 85, 247, 0.6)',
+  'rgba(239, 68, 68, 0.6)'
 ]
 
-const WARM_HOVER = [
-  'rgba(212, 148, 10, 0.85)',
-  'rgba(184, 115, 51, 0.8)',
-  'rgba(232, 184, 74, 0.75)',
-  'rgba(160, 130, 80, 0.75)',
-  'rgba(194, 114, 32, 0.7)'
+const CATEGORY_HOVER = [
+  'rgba(59, 130, 246, 0.9)',
+  'rgba(16, 185, 129, 0.85)',
+  'rgba(245, 158, 11, 0.85)',
+  'rgba(168, 85, 247, 0.8)',
+  'rgba(239, 68, 68, 0.8)'
 ]
 
 export default function DoughnutChart({ categories }) {
@@ -47,8 +47,8 @@ export default function DoughnutChart({ categories }) {
     datasets: [
       {
         data: categories.map(c => c.total_count),
-        backgroundColor: WARM_COLORS.slice(0, categories.length),
-        hoverBackgroundColor: WARM_HOVER.slice(0, categories.length),
+        backgroundColor: CATEGORY_COLORS.slice(0, categories.length),
+        hoverBackgroundColor: CATEGORY_HOVER.slice(0, categories.length),
         borderWidth: 0,
         hoverOffset: 8,
         hoverBorderWidth: 2,
@@ -84,8 +84,8 @@ export default function DoughnutChart({ categories }) {
       tooltip: {
         rtl: true,
         textDirection: 'rtl',
-        backgroundColor: 'rgba(12, 14, 21, 0.96)',
-        borderColor: 'rgba(212, 148, 10, 0.15)',
+        backgroundColor: 'rgba(15, 21, 35, 0.96)',
+        borderColor: 'rgba(59, 130, 246, 0.15)',
         borderWidth: 1,
         titleFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 13, weight: '500' },
         bodyFont: { family: 'IBM Plex Sans Hebrew, sans-serif', size: 12 },

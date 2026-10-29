@@ -24,18 +24,13 @@ function getInsight(summary) {
   }
 }
 
-/* Colors from CSS custom properties --ashdod-card-* */
-const root = typeof getComputedStyle !== 'undefined' && document.documentElement
-  ? getComputedStyle(document.documentElement)
-  : null
-const cssVar = (name, fallback) => root ? (root.getPropertyValue(name).trim() || fallback) : fallback
-
+/* Distinct color per KPI card */
 const CARD_COLORS = {
-  businesses: cssVar('--ashdod-card-businesses', 'rgba(212, 180, 120, 0.75)'),
-  neighborhoods: cssVar('--ashdod-card-neighborhoods', 'rgba(184, 160, 110, 0.7)'),
-  income: cssVar('--ashdod-card-income', '#7ec88a'),
-  vacancy_ok: cssVar('--ashdod-card-vacancy-ok', '#7ec88a'),
-  vacancy_warn: cssVar('--ashdod-card-vacancy-warn', '#d47070')
+  businesses: '#3b82f6',
+  neighborhoods: '#8b5cf6',
+  income: '#10b981',
+  vacancy_ok: '#10b981',
+  vacancy_warn: '#ef4444'
 }
 
 function AnimatedValue({ value, color, unit, decimals = 0 }) {
@@ -100,14 +95,9 @@ export default function KPICards({ summary }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-          whileHover={{ y: -4, boxShadow: '0 4px 12px rgba(0,0,0,0.5), 0 12px 40px rgba(0,0,0,0.35), 0 0 60px rgba(212,148,10,0.06)' }}
+          whileHover={{ y: -4, boxShadow: '0 4px 12px rgba(0,0,0,0.35), 0 12px 40px rgba(0,0,0,0.25)' }}
           whileTap={{ y: 0 }}
         >
-          {/* Top accent bar */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            height: '3px', background: card.color, opacity: 0.5
-          }} />
           <div className="kpi-header">
             <span className="kpi-label">{card.label}</span>
           </div>
