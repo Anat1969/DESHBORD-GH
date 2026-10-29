@@ -296,7 +296,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 120px 32px 56px;
+  padding: 80px 32px 32px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -318,12 +318,21 @@ body {
 }
 
 .landing-hero .subtitle {
-  font-size: 1.05rem;
-  color: var(--color-text-secondary);
-  max-width: 540px;
+  font-size: 1.15rem;
+  color: var(--color-text);
+  max-width: 600px;
   line-height: 1.9;
-  margin-bottom: 48px;
+  margin-bottom: 16px;
   animation: fade-up 1s var(--ease-out) 0.15s both;
+}
+
+.landing-hero .subtitle-secondary {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  max-width: 560px;
+  line-height: 1.9;
+  margin-bottom: 0;
+  animation: fade-up 1s var(--ease-out) 0.25s both;
 }
 
 /* SQUARE button per skill rules */
@@ -509,6 +518,203 @@ body {
   color: var(--color-text-secondary);
   line-height: 1.8;
   position: relative;
+}
+
+/* ── Landing How Section ── */
+.landing-how {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 32px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-how h2 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: 32px;
+  letter-spacing: 0.02em;
+}
+
+.landing-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.landing-step {
+  background: var(--ashdod-surface);
+  border: 1px solid var(--color-border);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-deep);
+  transition: all 0.4s var(--ease-out);
+}
+
+.landing-step::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ashdod-amber), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.landing-step:hover { border-color: var(--color-border-warm); box-shadow: var(--shadow-lift); }
+.landing-step:hover::before { opacity: 0.6; }
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(212, 148, 10, 0.25);
+  color: var(--ashdod-gold);
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  margin-bottom: 14px;
+}
+
+.landing-step h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: var(--ashdod-gold);
+}
+
+.landing-step p {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+}
+
+/* ── Landing CTA ── */
+.landing-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 48px 32px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-note {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION NAVIGATION — ניווט שלבים
+   ═══════════════════════════════════════════════════════ */
+.section-nav {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--ashdod-deep);
+  padding: 8px 0;
+}
+
+.section-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+}
+
+.section-nav-btn:hover {
+  color: var(--color-text-secondary);
+}
+
+.section-nav-btn.active {
+  color: var(--ashdod-gold);
+  border-bottom-color: var(--ashdod-amber);
+  font-weight: 500;
+}
+
+.section-nav-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-border);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  transition: all 0.3s;
+}
+
+.section-nav-btn.active .section-nav-num {
+  border-color: var(--ashdod-amber);
+  color: var(--ashdod-gold);
+}
+
+/* ═══════════════════════════════════════════════════════
+   DASHBOARD SECTIONS — מקטעים מודרכים
+   ═══════════════════════════════════════════════════════ */
+.dash-section {
+  margin-bottom: 56px;
+  scroll-margin-top: 60px;
+}
+
+.section-guide {
+  margin-bottom: 20px;
+}
+
+.section-guide h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.guide-text {
+  font-size: 0.92rem;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  max-width: 700px;
+}
+
+.planning-note {
+  margin-top: 20px;
+  padding: 18px 24px;
+  background: rgba(212, 148, 10, 0.04);
+  border-right: 3px solid rgba(212, 148, 10, 0.3);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+}
+
+.planning-label {
+  display: block;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ashdod-amber);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1192,6 +1398,7 @@ body {
   .charts-row { grid-template-columns: 1fr; }
   .landing-stats { grid-template-columns: repeat(2, 1fr); }
   .landing-features { grid-template-columns: 1fr; }
+  .landing-steps { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -1210,6 +1417,9 @@ body {
   .landing-hero { padding: 60px 20px 40px; }
   .landing-stats { grid-template-columns: repeat(2, 1fr); }
   .landing-features { padding: 0 20px 60px; }
+  .landing-steps { grid-template-columns: 1fr; }
+  .section-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .section-nav-btn { white-space: nowrap; font-size: 0.82rem; padding: 10px 14px; }
   .kpi-value { font-size: 2rem; }
   .geo-map-leaflet { height: 320px; }
 }
