@@ -95,6 +95,10 @@ export default function Dashboard() {
               {s.label}
             </button>
           ))}
+          <a className="section-nav-btn" href="#/articles">
+            <span className="section-nav-num">{SECTIONS.length + 1}</span>
+            כתבות
+          </a>
         </nav>
 
         {/* Section 1 — תמונת מצב */}
