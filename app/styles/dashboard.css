@@ -1227,3 +1227,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(120, 140, 180, 0.3);
 }
+
+/* ═══ כתבות (#/articles): דף בהיר שנגלל רגיל, והכתבות בפורמט לוח מצב ═══ */
+a.section-nav-btn { text-decoration: none; }
+.articles-page { min-height: 100vh; background: #f8f6f1; color: #14213a; }
+.articles-page .landing-top-bar { background: #1a3a6f; border-bottom: 3px solid #d4af37; }
+.articles-page .landing-app-name { color: #fff; text-decoration: none; }
+.articles-main { max-width: 1440px; margin: 0 auto; padding: 24px 16px 64px; }
+@media (max-width: 600px) { .articles-page .landing-top-bar { padding: 14px 16px; } }
